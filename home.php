@@ -23,7 +23,12 @@ if(!isset($_SESSION['username'])){
 <body>
   <div class="jumbotron text-center">
     <h1>Visitor Management System</h1>
-    <h3>Logged in!</h3>
+    <h3>Hello, <?php echo $_SESSION['username']; ?></h3>
     <a href="logout.php">Logout</a>
   </div>
+
+  <div class = "container">
+    <p><a class="btn btn-lg btn-success" href="newvisitor.php" role="button">Visitor Entry</a></p>
+  </div>
+
 </body>

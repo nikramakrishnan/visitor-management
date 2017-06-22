@@ -1,0 +1,3 @@
+#Images stored locally should not be pushed
+/images/*
+!/images/README.md
