@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: mysql4.gear.host    Database: vms
 -- ------------------------------------------------------
@@ -37,11 +37,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES (1,'admin','$2y$10$CwuNhiptwoCO41TSmvxIj.U461K.wKoCdwEH52c9lzkm8Vjz7NybW','2017-06-20 12:32:00','127.0.0.1',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `visitors`
@@ -54,22 +52,21 @@ CREATE TABLE `visitors` (
   `visitor_no` int(11) NOT NULL AUTO_INCREMENT,
   `card_no` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
-  `mobile` int(11) NOT NULL,
+  `mobile` varchar(11) NOT NULL,
   `purpose` varchar(50) NOT NULL,
   `photo_ref` varchar(32) NOT NULL,
   `in_campus` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`visitor_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `visitors`
 --
 
-LOCK TABLES `visitors` WRITE;
 /*!40000 ALTER TABLE `visitors` DISABLE KEYS */;
+INSERT INTO `visitors` VALUES (3,12,'mike','944552832','1','2383594d563f1d802144136801.jpg',1),(4,3,'Jack','9123654793','1','62509594d626813393897676135.jpg',1);
 /*!40000 ALTER TABLE `visitors` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -80,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-23 23:28:08
+-- Dump completed on 2017-06-24  0:21:53
