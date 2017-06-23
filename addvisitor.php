@@ -11,6 +11,11 @@ $errors= array();
 $success=array();
 //Flag to check if process was successfull
 $flag=0;
+
+//Connect to the Database
+//The connection is in $conn
+require 'res/scripts/connect.php';
+
 //Validate card number
 function validate_cardno($numcard){
   return preg_match('/^[0-9]+$/', $numcard);
@@ -69,12 +74,20 @@ if(isset($_FILES['image'])){
     $flag=0;
   }
 }
+
 //Generate file name for image
 /* Activated the more_entropy parameter. This makes uniqid() more unique */
 function generate_uuid(){
-  $unique_id=uniqid(mt_rand(), true);
+  $unique_id=uniqid(mt_rand(1,99999), true);
   $unique_id = str_replace('.', '',$unique_id);
   return $unique_id;
+}
+
+//Add new row to database (visitors)
+$query_text = "INSERT INTO visitors (card_no, name, mobile, purpose, photo_ref) VALUES ($cardno, '$name', $mobile, '$purpose', '$uid_name');";
+
+if(!mysqli_query($conn, $query_text)){
+	echo ("Error: ".mysqli_error($conn));
 }
 
 //Print errors/success depending on flag
@@ -89,4 +102,5 @@ else{
 }
 header('Content-Type: application/json');
 echo json_encode($json);
+
 ?>
