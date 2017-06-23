@@ -9,7 +9,9 @@ $purpose = $_POST['purpose'];
 //Initialize array to store error/success data
 $errors= array();
 $success=array();
-//Flag to check if process was successfull
+/* Flag to check if the process was successful
+ * 0 - There are errors (default)
+ * 1 - No errors (check performed after all validations are completed) */
 $flag=0;
 
 //Connect to the Database
@@ -58,36 +60,53 @@ if(isset($_FILES['image'])){
     $errors['image2']='400: File size must not be greater than than 5 MB';
   }
 
+  //If there are no errors yet, upload the image
   if(empty($errors)==true){
     $uid=generate_uuid();
     $uid_name = $uid.'.'.$file_ext;
     if(move_uploaded_file($file_tmp,"images/".$uid_name)){
       $success['image']=true;
       $success['image-url']=$uid_name;
-      $flag=1;
     }
     else{
       $errors['upload']="Sorry, could not upload photo. Please try again in a while";
-      $flag=0;
     }
-  }else{
-    $flag=0;
   }
+}else{
+  $errors['image']="Image file not supplied";
 }
 
-//Generate file name for image
-/* Activated the more_entropy parameter. This makes uniqid() more unique */
+/* Generate file name for image.
+ * Activated the more_entropy parameter. This makes uniqid() more unique */
 function generate_uuid(){
   $unique_id=uniqid(mt_rand(1,99999), true);
   $unique_id = str_replace('.', '',$unique_id);
   return $unique_id;
 }
 
-//Add new row to database (visitors)
-$query_text = "INSERT INTO visitors (card_no, name, mobile, purpose, photo_ref) VALUES ($cardno, '$name', $mobile, '$purpose', '$uid_name');";
+//If there are no errors yet, Add new row to database (visitors)
+if(empty($errors)==true){
+  $query_text = "INSERT INTO visitors (card_no, name, mobile, purpose, photo_ref) VALUES ($cardno, '$name', $mobile, '$purpose', '$uid_name');";
 
-if(!mysqli_query($conn, $query_text)){
-	echo ("Error: ".mysqli_error($conn));
+  if(!mysqli_query($conn, $query_text)){
+    $errors['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
+    delete_image(); //Delete image if SQL insertion was unsuccessful
+  }
+}
+
+//Function to delete the image from server if the SQL query was unsuccessful
+function delete_image(){
+  global $uid_name,$errors;
+  $file_loc = 'images/'.$uid_name;
+  unlink($file_loc);
+}
+
+//Check if errors is empty, and set flag accordingly
+if(empty($errors)==true){
+  $flag=1;
+}
+else{
+  $flag=0;
 }
 
 //Print errors/success depending on flag
