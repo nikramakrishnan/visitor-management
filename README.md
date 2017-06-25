@@ -12,7 +12,7 @@ git clone https://github.com/nikramakrishnan/visitor-management.git
 **OR**  
 if you have already cloned the repository, run -
 ```bash
-git fetch
+git pull
 ```
 
 Switch to the `skeleton` branch -
@@ -31,3 +31,7 @@ The default credentials are -
 # Contributing
 Please note that all code must be readable and comments should be used wherever required.  
 Database and table names must be generic easy to understand.
+
+# Completion
+This branch will be merged with `master` when the basic functionality (login + visitor add)
+is completed and tested.
