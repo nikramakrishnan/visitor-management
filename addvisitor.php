@@ -1,44 +1,53 @@
 <?php
-//Assign variables to POST data
-
-$cardno = $_POST['cardno'];
-$name = $_POST['name'];
-$mobile = $_POST['mobile'];
-$purpose = $_POST['purpose'];
-
 //Initialize array to store error/success data
 $errors= array();
 $success=array();
-/* Flag to check if the process was successful
- * 0 - There are errors (default)
- * 1 - No errors (check performed after all validations are completed) */
-$flag=0;
-
-//Connect to the Database
-//The connection is in $conn
-require 'res/scripts/connect.php';
-
-//Validate card number
-function validate_cardno($numcard){
-  return preg_match('/^[0-9]+$/', $numcard);
-}
-if(validate_cardno($cardno)==0){
-  $errors['cardno']="Please enter a valid card number";
+//Check if all data is set
+if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'])){
+  $errors['data']="Required data not supplied.";
 }
 
-//Validate Mobile Number
-function validate_mobile($nummob){
-  return preg_match('/^[0-9]{5,10}+$/', $nummob);
-}
-if(validate_mobile($mobile)==0){
-  $errors['mobile']="Please enter a valid mobile number";
-}
+//Start validation only if all data is provided
+if(empty($errors)==true){
 
-//Validate purpose
-function validate_purpose($purpose){
-  if(empty($purpose)){
-    $errors['purpose']="Please select/enter a valid purpose";
+  //Assign variables to POST data
+  $cardno = $_POST['cardno'];
+  $name = $_POST['name'];
+  $mobile = $_POST['mobile'];
+  $purpose = $_POST['purpose'];
+
+  /* Flag to check if the process was successful
+  * 0 - There are errors (default)
+  * 1 - No errors (check performed after all validations are completed) */
+  $flag=0;
+
+  //Connect to the Database
+  //The connection is in $conn
+  require 'res/scripts/connect.php';
+
+  //Validate card number
+  function validate_cardno($numcard){
+    return preg_match('/^[0-9]+$/', $numcard);
   }
+  if(validate_cardno($cardno)==0){
+    $errors['cardno']="Please enter a valid card number";
+  }
+
+  //Validate Mobile Number
+  function validate_mobile($nummob){
+    return preg_match('/^[0-9]{5,10}+$/', $nummob);
+  }
+  if(validate_mobile($mobile)==0){
+    $errors['mobile']="Please enter a valid mobile number";
+  }
+
+  //Validate purpose
+  function validate_purpose($purpose){
+    if(empty($purpose)){
+      $errors['purpose']="Please select/enter a valid purpose";
+    }
+  }
+
 }
 
 //Validate Image
@@ -77,7 +86,7 @@ if(isset($_FILES['image'])){
 }
 
 /* Generate file name for image.
- * Activated the more_entropy parameter. This makes uniqid() more unique */
+* Activated the more_entropy parameter. This makes uniqid() more unique */
 function generate_uuid(){
   $unique_id=uniqid(mt_rand(1,99999), true);
   $unique_id = str_replace('.', '',$unique_id);
