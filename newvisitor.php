@@ -21,10 +21,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+  <link href="//getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+  <link href="res/css/narrow.css" rel="stylesheet">
 
 </head>
 
