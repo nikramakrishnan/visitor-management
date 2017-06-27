@@ -24,9 +24,16 @@ Now, start Apache and MySQL, and create a database named `vms`, if not already e
 
 Now import the `vms.sql` file in the database to create the required table(s).  
 
-The default credentials are -  
-**Username**: admin  
-**Password**: password
+The VMS is now ready to work!  
+
+# Credentials
+The default credentials used to login at `index.php` are -  
+
+Username | admin
+-------- | -----
+**Password** | password
+
+Session is maintained as a PHP session (uses cookies), and most requests will return data in `JSON` format (so that the app can understand it easily!)
 
 # Contributing
 Please note that all code must be readable and comments should be used wherever required.  
