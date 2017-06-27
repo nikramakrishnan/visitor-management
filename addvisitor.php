@@ -3,11 +3,20 @@
 $errors= array();
 $success=array();
 //Check if all data is set
-if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'])){
+if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'],$_POST['token'])){
   $errors['data']="Required data not supplied.";
 }
 
-//Start validation only if all data is provided
+//Require token validator
+require 'token.php';
+
+//Validate token
+$token_data=validate_token($_POST['token']);
+if(!$token_data['validated']){
+  $errors['token']="403: Invalid/expired token supplied.";
+}
+
+//Start validation only if all data is provided and token is valid
 if(empty($errors)==true){
 
   //Assign variables to POST data
