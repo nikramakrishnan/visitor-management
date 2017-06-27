@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2017 at 12:36 PM
+-- Generation Time: Jun 27, 2017 at 12:58 PM
 -- Server version: 10.1.22-MariaDB
 -- PHP Version: 7.1.4
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `auth_tokens`
 --
 
+DROP TABLE IF EXISTS `auth_tokens`;
 CREATE TABLE `auth_tokens` (
   `id` int(11) NOT NULL,
   `auth_key` varchar(41) NOT NULL,
@@ -52,6 +53,7 @@ INSERT INTO `auth_tokens` (`id`, `auth_key`, `user_id`, `creation_time`, `expiry
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
@@ -74,6 +76,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `creation_time`, `remote_ip`,
 -- Table structure for table `visitors`
 --
 
+DROP TABLE IF EXISTS `visitors`;
 CREATE TABLE `visitors` (
   `visitor_no` int(11) NOT NULL,
   `card_no` int(11) NOT NULL,
