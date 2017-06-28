@@ -8,7 +8,7 @@ if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'],$_P
 }
 
 //Require token validator
-require 'token.php';
+require 'res/scripts/token.php';
 
 //Validate token
 $token_data=validate_token($_POST['token']);
