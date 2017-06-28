@@ -2,8 +2,9 @@
 session_start();
 
 //Initialize array to store error/success data
-$errors= array();
-$success=array();
+$errors = array();
+$success = array();
+$debug = array();
 
 /* Flag to check if the process was successful
 * 0 - There are errors (default)
@@ -11,7 +12,7 @@ $success=array();
 $flag=0;
 
 if(!isset($_POST['username'],$_POST['password'])){
-  $errors['data']="Username/password not supplied.";
+  $errors['post']="Username/password not supplied.";
   kill($errors);
 }
 
@@ -31,16 +32,27 @@ else{
 require 'res/scripts/connect.php';
 
 //Get Username and password from POST
-$username = $_POST['username'];
-$password = $_POST['password'];
+$username = htmlentities($_POST['username']);
+$password = htmlentities($_POST['password']);
+
+//Get debug variable
+//Development code
+if(isset($_POST['debug']) && $_POST['debug']=="1") {$isdebug = "true";}
+else {$isdebug = "false";}
 
 //Pass the query to the Database
 $query_text="SELECT id,password,access_level FROM users WHERE username='$username'";
 $result=mysqli_query($conn,$query_text);
+if(!$result){
+  $errors['server']="Server encountered an error. Please try again later";
+  $debug['mysql']="Could not retrieve data from database. Error message: ".mysqli_error($conn);
+  kill($errors);
+}
 
 //If no result found
 if(mysqli_num_rows($result)==0){
   $errors['credentials']="Wrong username/password. Please try again.";
+  $debug['username']="Username ".$username." does not exist.";
   kill($errors);
 }
 
@@ -63,23 +75,26 @@ if(password_verify($password,$db_password)){
   //Insert the values in the Database
   $query_text = "INSERT INTO `auth_tokens` (`auth_key`, `user_id`, `creation_time`, `expiry`, `last_access`, `device_info`) VALUES ('$auth_key_db','".$_SESSION['id']."',$cur_time,$expiry, $cur_time, '$devinfo');";
   if(!mysqli_query($conn, $query_text)){
-    $errors['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
+    $errors['server']="Server encountered an error. Please try again later";
+    $debug['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
     kill($errors);
   }
 
   //Add auth_key to success
-  $success['auth_key']=$auth_key;
+  $success['access_token']=$auth_key;
+  $success['expiry']=$expiry;
 
   //Output json
   $json = array();
-  header('Content-Type: application/json');
   $json['success']=true;
   $json['data']=$success;
+  header('Content-Type: application/json');
   echo json_encode($json);
 }
 //Else show error
 else{
   $errors['credentials']="Wrong username/password. Please try again.";
+  $debug['password']="Incorrect password.";
   kill($errors);
 }
 
@@ -91,10 +106,16 @@ function generate_auth_key(){
 
 //This will stop excecution immediately and show corresponding error(s)
 function kill($errors){
-  header('Content-Type: application/json');
+  //Development code
+  global $isdebug,$debug;
   $json=array();
   $json['success']=false;
   $json['errors']=$errors;
+  //Development code
+  if(!empty($debug) && $isdebug==="true") $json['debug']=$debug;
+
+  //Echo the data
+  header('Content-Type: application/json');
   echo json_encode($json);
   die(1);
 }
