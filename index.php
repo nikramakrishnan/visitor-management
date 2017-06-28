@@ -26,7 +26,7 @@ if(isset($_SESSION['username'])){
   </div>
   <div class="container">
     <h2>Login</h2>
-  <form class="form-horizontal" id="login" action="auth.php" method="POST">
+  <form class="form-horizontal" id="login" action="auth.php" method="POST"> <!-- Change action to "authcred.php" to get JSON Response with token -->
     <div class="form-group">
       <label class="control-label col-sm-2" for="username">Username:</label>
       <div class="col-sm-10">
@@ -39,6 +39,7 @@ if(isset($_SESSION['username'])){
         <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
       </div>
     </div>
+    <!-- <input type="hidden" name="debug" value="1"> --> <!-- Uncomment previous comment to enable debug mode when form action="authcred.php" -->
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-default">Submit</button>
