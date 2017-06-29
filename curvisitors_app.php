@@ -4,7 +4,7 @@ $json_dat = array(); //Initialize array for encoding data to json format
 $errors= array(); //Initialize array to store errors
 
 //Require token validator
-require 'token.php';
+require 'res/scripts/token.php';
 
 //Validate token
 $token_data=validate_token($_POST['token']);
