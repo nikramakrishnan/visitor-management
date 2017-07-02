@@ -1,7 +1,7 @@
 <?php
 //Connect to the Database
 //The connection is in $conn
-require 'res/scripts/connect.php';
+require 'connect.php';
 
 function validate_token($token){
   //Variables
