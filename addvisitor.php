@@ -25,6 +25,12 @@ if(empty($errors)==true){
   $mobile = $_POST['mobile'];
   $purpose = $_POST['purpose'];
 
+  //Assign variable to current DateTime
+  $datetime = date("Y-m-d H:i:s");
+
+  //Get current user ID from $token_data
+  $user_id=$token_data['id'];
+
   /* Flag to check if the process was successful
   * 0 - There are errors (default)
   * 1 - No errors (check performed after all validations are completed) */
@@ -104,7 +110,7 @@ function generate_uuid(){
 
 //If there are no errors yet, Add new row to database (visitors)
 if(empty($errors)==true){
-  $query_text = "INSERT INTO visitors (card_no, name, mobile, purpose, photo_ref) VALUES ($cardno, '$name', $mobile, '$purpose', '$uid_name');";
+  $query_text = "INSERT INTO visitors (card_no, name, mobile, purpose, photo_ref, entry_time, added_by) VALUES ($cardno, '$name', $mobile, '$purpose', '$uid_name', '$datetime','$user_id');";
 
   if(!mysqli_query($conn, $query_text)){
     $errors['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
