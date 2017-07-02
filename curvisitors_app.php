@@ -6,11 +6,13 @@ $errors= array(); //Initialize array to store errors
 //Require token validator
 require 'res/scripts/token.php';
 
+/*
 //Validate token
 $token_data=validate_token($_POST['token']);
 if(!$token_data['validated']){
   $errors['token']="403: Invalid/expired token supplied.";
 }
+*/
 
 //Connect to the Database
 require 'res/scripts/connect.php';
@@ -27,15 +29,15 @@ if(mysqli_num_rows($result)==0){
 
 //Get column names
 while ($column = mysqli_fetch_field($result)) {
-    //Save column name to array 
-    array_push($column_names, $column->name);  
+    //Save column name to array
+    array_push($column_names, $column->name);
 }
 
 //Store column names for encoding to json format
-$json_dat[] = $column_names; 
+//$json_dat[] = $column_names;
 
-//Get rows 
-while ($row = mysqli_fetch_array($result)) {
+//Get rows
+while ($row = mysqli_fetch_assoc($result)) {
   //Store rows for encoding to json format
   $json_dat[] = $row;
 }
