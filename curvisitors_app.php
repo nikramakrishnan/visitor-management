@@ -1,5 +1,10 @@
 <?php
 
+/* BEWARE!
+ * This file is deprecated and will be removed in subsequent versions.
+ * Please use the /v1/get endpoint
+ */
+
 $json_dat = array(); //Initialize array for encoding data to json format
 $errors= array(); //Initialize array to store errors
 

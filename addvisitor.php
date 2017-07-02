@@ -1,4 +1,10 @@
 <?php
+
+/* BEWARE!
+ * This file is deprecated and will be removed in subsequent versions.
+ * Please use the /v1/add endpoint
+ */
+
 //Initialize array to store error/success data
 $errors= array();
 $success=array();

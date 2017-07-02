@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+/* BEWARE!
+ * This file is deprecated and will be removed in subsequent versions.
+ * Please use the /v1/oauth endpoint
+ */
+
 //Initialize array to store error/success data
 $errors = array();
 $success = array();
