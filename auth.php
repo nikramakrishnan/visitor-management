@@ -31,6 +31,7 @@ if(password_verify($password,$db_password)){
   //If password is correct, redirect to home page
   $_SESSION['username']=$username;
   $_SESSION['access_level']=$data['access_level'];
+  $_SESSION['id']=$data['id'];
   echo 'Logged in.';
   header('Location: home.php');
 }
