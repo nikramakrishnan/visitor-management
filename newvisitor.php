@@ -90,7 +90,7 @@
         </div>
       </div>
       <input type="hidden" name="token" value="aa77d525346a69468925fcfe5d18778340c89447">
-      <!-- <input type="hidden" name="debug" value="1"> --> <!-- Uncomment previous comment to enable debug mode when form action="authcred.php" -->
+      <!-- <input type="hidden" name="debug" value="1"> --> <!-- Uncomment previous comment to enable debug mode -->
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <button type="submit" class="btn btn-default">Submit</button>
