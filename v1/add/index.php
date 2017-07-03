@@ -2,9 +2,11 @@
 //Initialize array to store error/success data
 $errors= array();
 $success=array();
+$debug = array();
+
 //Check if all data is set
 if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'],$_POST['token'])){
-  $errors['data']="Required data not supplied. Please check documentation for more information.";
+  $errors['post']="Required data not supplied. Please check documentation for more information.";
   kill($errors);
 }
 
@@ -14,7 +16,7 @@ require '../../res/scripts/token.php';
 //Validate token
 $token_data=validate_token($_POST['token']);
 if(!$token_data['validated']){
-  $errors['token']="403: Invalid/expired token supplied.";
+  $errors['access_token']="403: Invalid/expired token supplied.";
 }
 
 //Start validation only if all data is provided and token is valid
@@ -32,6 +34,11 @@ if(empty($errors)==true){
   //Get current user ID from $token_data
   $user_id=$token_data['id'];
 
+  //Development code
+  //Get debug variable
+  if(isset($_POST['debug']) && $_POST['debug']=="1") {$isdebug = "true";}
+  else {$isdebug = "false";}
+
   /* Flag to check if the process was successful
   * 0 - There are errors (default)
   * 1 - No errors (check performed after all validations are completed) */
@@ -39,7 +46,7 @@ if(empty($errors)==true){
 
   //Connect to the Database
   //The connection is in $conn
-  require 'res/scripts/connect.php';
+  require '../../res/scripts/connect.php';
 
   //Validate card number
   function validate_cardno($numcard){
@@ -78,23 +85,24 @@ if(isset($_FILES['image'])){
   $expensions= array("jpeg","jpg","png","bmp");
 
   if(in_array($file_ext,$expensions)=== false){
-    $errors['image']="400: Image file required";
+    $errors['format']="400: Image file required";
   }
 
   if($file_size > 5242880){
-    $errors['image2']='400: File size must not be greater than than 5 MB';
+    $errors['image_size']='400: File size must not be greater than than 5 MB';
   }
 
   //If there are no errors yet, upload the image
   if(empty($errors)==true){
     $uid=generate_uuid();
     $uid_name = $uid.'.'.$file_ext;
-    if(move_uploaded_file($file_tmp,"images/".$uid_name)){
+    if(move_uploaded_file($file_tmp,"../../images/".$uid_name)){
       $success['image']=true;
-      $success['image-url']=$uid_name;
+      $success['image_url']=$uid_name;
     }
     else{
-      $errors['upload']="Sorry, could not upload photo. Please try again in a while";
+      $errors['server']="Server encountered an error. Please try again later";
+      $debug['upload']="Sorry, could not upload photo. Please try again in a while";
     }
   }
 }else{
@@ -114,15 +122,19 @@ if(empty($errors)==true){
   $query_text = "INSERT INTO visitors (card_no, name, mobile, purpose, photo_ref, entry_time, added_by) VALUES ($cardno, '$name', $mobile, '$purpose', '$uid_name', '$datetime','$user_id');";
 
   if(!mysqli_query($conn, $query_text)){
-    $errors['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
+    $errors['server']="Server encountered an error. Please try again later";
+    $debug['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
+
     delete_image(); //Delete image if SQL insertion was unsuccessful
+
+    kill($errors); //Kill the process
   }
 }
 
 //Function to delete the image from server if the SQL query was unsuccessful
 function delete_image(){
   global $uid_name,$errors;
-  $file_loc = 'images/'.$uid_name;
+  $file_loc = '../../images/'.$uid_name;
   unlink($file_loc);
 }
 
@@ -138,11 +150,13 @@ else{
 $json=array();
 if($flag==1){
   $json['success']=true;
-  $json['info']= $success;
+  $json['image_url']= $success['image_url'];
 }
 else{
   $json['success']=false;
   $json['errors']= $errors;
+  //Development code
+  if(!empty($debug) && $isdebug==="true") $json['debug']=$debug;
 }
 header('Content-Type: application/json');
 echo json_encode($json);
@@ -151,9 +165,13 @@ echo json_encode($json);
 //Other Functions
 //This will stop excecution immediately and show corresponding error(s)
 function kill($errors){
+  //Development code
+  global $isdebug,$debug;
   $json=array();
   $json['success']=false;
   $json['errors']=$errors;
+  //Development code
+  if(!empty($debug) && $isdebug==="true") $json['debug']=$debug;
 
   //Echo the data
   header('Content-Type: application/json');
