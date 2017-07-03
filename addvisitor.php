@@ -64,7 +64,7 @@
 
    //Validate Mobile Number
    function validate_mobile($nummob){
-     return preg_match('/^[0-9]{5,10}+$/', $nummob);
+     return preg_match('/^[0-9]{6,15}+$/', $nummob);
    }
    if(validate_mobile($mobile)==0){
      $errors['mobile']="Please enter a valid mobile number";
