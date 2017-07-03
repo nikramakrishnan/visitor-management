@@ -42,7 +42,7 @@
       <h3 class="text-muted">VMS</h3>
     </div>
 
-    <form id="visitor" class="form-horizontal" action="addvisitor.php" method="post" enctype="multipart/form-data">
+    <form id="visitor" class="form-horizontal" action="v1/add/" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label class="control-label col-sm-2" for="cardno">Card Number:</label>
         <div class="col-sm-10">
@@ -90,6 +90,7 @@
         </div>
       </div>
       <input type="hidden" name="token" value="aa77d525346a69468925fcfe5d18778340c89447">
+      <!-- <input type="hidden" name="debug" value="1"> --> <!-- Uncomment previous comment to enable debug mode when form action="authcred.php" -->
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <button type="submit" class="btn btn-default">Submit</button>
