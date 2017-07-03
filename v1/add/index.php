@@ -23,10 +23,10 @@ if(!$token_data['validated']){
 if(empty($errors)==true){
 
   //Assign variables to POST data
-  $cardno = $_POST['cardno'];
-  $name = $_POST['name'];
-  $mobile = $_POST['mobile'];
-  $purpose = $_POST['purpose'];
+  $cardno = htmlentities($_POST['cardno']);
+  $name = htmlentities($_POST['name']);
+  $mobile = htmlentities($_POST['mobile']);
+  $purpose = htmlentities($_POST['purpose']);
 
   //Assign variable to current DateTime
   $datetime = date("Y-m-d H:i:s");
@@ -50,7 +50,7 @@ if(empty($errors)==true){
 
   //Validate card number
   function validate_cardno($numcard){
-    return preg_match('/^[0-9]+$/', $numcard);
+    return preg_match('/^[0-9+-]+$/', $numcard);
   }
   if(validate_cardno($cardno)==0){
     $errors['cardno']="Please enter a valid card number";
