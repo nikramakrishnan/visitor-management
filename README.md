@@ -39,6 +39,5 @@ Session is maintained as a PHP session (uses cookies), and most requests will re
 Please note that all code must be readable and comments should be used wherever required.  
 Database and table names must be generic easy to understand.
 
-# Completion
-This branch will be merged with `master` when the basic functionality (login + visitor add)
-is completed and tested.
+# Current Status
+This branch is a snapshot of the latest stable functionality. visitor-management is **not complete** and **should not be deployed** yet. Please see the `development` branch for the latest information.
