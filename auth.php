@@ -10,7 +10,7 @@ if(!isset($_POST['username'])||!isset($_POST['password'])){
 require 'res/scripts/connect.php';
 
 //Get Username and password from POST
-$username = $_POST['username'];
+$username = mysqli_real_escape_string($conn,$_POST['username']);
 $password = $_POST['password'];
 
 //Pass the query to the Database

@@ -6,6 +6,10 @@ $errors = array();
 $success = array();
 $debug = array();
 
+//Connect to the Database
+//The connection is in $conn
+require '../../res/scripts/connect.php';
+
 /* Flag to check if the process was successful
 * 0 - There are errors (default)
 * 1 - No errors (check performed after all validations are completed) */
@@ -18,22 +22,18 @@ if(!isset($_POST['username'],$_POST['password'])){
 
 //Get device information, if provided (for Android, this could be ANDROID_ID)
 if(isset($_POST['device-info'])){
-  $devinfo = $_POST['device-info'];
+  $devinfo = mysqli_real_escape_string($conn,$_POST['device-info']);
 }
 else if(isset($_SERVER['HTTP_USER_AGENT'])){
-  $devinfo = $_SERVER['HTTP_USER_AGENT'];
+  $devinfo = mysqli_real_escape_string($conn,$_SERVER['HTTP_USER_AGENT']);
 }
 else{
   $devinfo = "Unknown";
 }
 
-//Connect to the Database
-//The connection is in $conn
-require '../../res/scripts/connect.php';
-
 //Get Username and password from POST
-$username = htmlentities($_POST['username']);
-$password = htmlentities($_POST['password']);
+$username = mysqli_real_escape_string($conn,$_POST['username']);
+$password = $_POST['password'];
 
 //Get debug variable
 //Development code
