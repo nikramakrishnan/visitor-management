@@ -22,11 +22,15 @@ if(!$token_data['validated']){
 //Start validation only if all data is provided and token is valid
 if(empty($errors)==true){
 
-  //Assign variables to POST data
-  $cardno = htmlentities($_POST['cardno']);
-  $name = htmlentities($_POST['name']);
-  $mobile = htmlentities($_POST['mobile']);
-  $purpose = htmlentities($_POST['purpose']);
+  //Connect to the Database
+  //The connection is in $conn
+  require '../../res/scripts/connect.php';
+
+  //Assign variables to POST data and escape them
+  $cardno = $_POST['cardno'];
+  $name = mysqli_real_escape_string($conn,$_POST['name']);
+  $mobile = $_POST['mobile'];
+  $purpose = mysqli_real_escape_string($conn,$_POST['purpose']);
 
   //Assign variable to current DateTime
   $datetime = date("Y-m-d H:i:s");
@@ -44,13 +48,9 @@ if(empty($errors)==true){
   * 1 - No errors (check performed after all validations are completed) */
   $flag=0;
 
-  //Connect to the Database
-  //The connection is in $conn
-  require '../../res/scripts/connect.php';
-
   //Validate card number
   function validate_cardno($numcard){
-    return preg_match('/^[0-9+-]+$/', $numcard);
+    return preg_match('/^[0-9]+$/', $numcard);
   }
   if(validate_cardno($cardno)==0){
     $errors['cardno']="Please enter a valid card number";
@@ -58,7 +58,7 @@ if(empty($errors)==true){
 
   //Validate Mobile Number
   function validate_mobile($nummob){
-    return preg_match('/^[0-9]{6,15}+$/', $nummob);
+    return preg_match('/^[+]?[0-9-]{6,15}$/', $nummob);
   }
   if(validate_mobile($mobile)==0){
     $errors['mobile']="Please enter a valid mobile number";
@@ -119,7 +119,7 @@ function generate_uuid(){
 
 //If there are no errors yet, Add new row to database (visitors)
 if(empty($errors)==true){
-  $query_text = "INSERT INTO visitors (card_no, name, mobile, purpose, photo_ref, entry_time, added_by) VALUES ($cardno, '$name', $mobile, '$purpose', '$uid_name', '$datetime','$user_id');";
+  $query_text = "INSERT INTO visitors (card_no, name, mobile, purpose, photo_ref, entry_time, added_by) VALUES ($cardno, '$name', '$mobile', '$purpose', '$uid_name', '$datetime','$user_id');";
 
   if(!mysqli_query($conn, $query_text)){
     $errors['server']="Server encountered an error. Please try again later";
