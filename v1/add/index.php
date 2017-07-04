@@ -5,7 +5,7 @@ $success=array();
 $debug = array();
 
 //Check if all data is set
-if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'],$_POST['token'])){
+if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'],$_POST['access_token'])){
   $errors['post']="Required data not supplied. Please check documentation for more information.";
   kill($errors);
 }
@@ -14,7 +14,7 @@ if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'],$_P
 require '../../res/scripts/token.php';
 
 //Validate token
-$token_data=validate_token($_POST['token']);
+$token_data=validate_token($_POST['access_token']);
 if(!$token_data['validated']){
   $errors['access_token']="403: Invalid/expired token supplied.";
 }
