@@ -20,6 +20,10 @@ if (!$conn) {
         die("Something terribly went wrong. Please contact the developer. Error code: 503");
       }
     }
+    else if(function_exists(error)){
+      error("504: Internal Server Error. Please try again in a while.
+              If problem persists, contact the developer with the Error Code <strong>CONNECTION_ACTIVELY_REFUSED</strong>");
+    }
     else die("Connection failed: " . mysqli_connect_error());
 }
 //echo "Connected successfully";

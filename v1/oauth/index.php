@@ -42,8 +42,8 @@ else {$isdebug = "false";}
 
 //Pass the query to the Database
 $query_text="SELECT id,password,access_level FROM users WHERE username='$username'";
-$result=mysqli_query($conn,$query_text);
-if(!$result){
+
+if(!($result=mysqli_query($conn,$query_text))){
   $errors['server']="Server encountered an error. Please try again later";
   $debug['mysql']="Could not retrieve data from database. Error message: ".mysqli_error($conn);
   kill($errors);
@@ -89,7 +89,7 @@ if(password_verify($password,$db_password)){
   $json['success']=true;
   $json['data']=$success;
   header('Content-Type: application/json');
-  echo json_encode($json);
+  echo json_encode($json,JSON_PRETTY_PRINT);
 }
 //Else show error
 else{
@@ -116,7 +116,7 @@ function kill($errors){
 
   //Echo the data
   header('Content-Type: application/json');
-  echo json_encode($json);
+  echo json_encode($json,JSON_PRETTY_PRINT);
   die(1);
 }
 ?>

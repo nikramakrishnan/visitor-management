@@ -159,7 +159,7 @@ else{
   if(!empty($debug) && $isdebug==="true") $json['debug']=$debug;
 }
 header('Content-Type: application/json');
-echo json_encode($json);
+echo json_encode($json,JSON_PRETTY_PRINT);
 
 
 //Other Functions
@@ -175,7 +175,7 @@ function kill($errors){
 
   //Echo the data
   header('Content-Type: application/json');
-  echo json_encode($json);
+  echo json_encode($json,JSON_PRETTY_PRINT);
   die(1);
 }
 ?>
