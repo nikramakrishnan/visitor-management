@@ -9,7 +9,7 @@ function validate_token($token){
   $return_data = array();
 
   $token = hash('sha1',$token);
-  $query_text = "SELECT `user_id`, `expiry` FROM `auth_tokens` WHERE `auth_key`='$token'";
+  $query_text = "SELECT `id`, `user_id`, `expiry` FROM `auth_tokens` WHERE `auth_key`='$token'";
 
   if(!($result=mysqli_query($conn,$query_text))){
     $return_data['validated']=false;
@@ -30,6 +30,8 @@ function validate_token($token){
       $return_data['validated']=true;
       $return_data['id'] = $data['user_id'];
       $return_data['expiry'] = $data['expiry'];
+      $token_id = $data['id'];
+      $result = update_time($conn,$token_id);
     }
     else{
       $return_data['validated']=false;
@@ -48,9 +50,31 @@ function validate_expiry($expiry){
 }
 
 function delete_token($token){
+  /* Function deletes a token if it is found to be expired
+   * This ensures the table remains clean
+   */
+
   global $conn;
 
   $query_text = "DELETE FROM `auth_tokens` WHERE `auth_tokens`.`auth_key` = '$token';";
+
+  if(mysqli_query($conn,$query_text)){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+function update_time($conn,$token_id){
+  /* Function updates the access time as soon as the token is validated
+   * Parameters:
+   * $conn - Database connection
+   * $token_id - ID of the token (NOTE: This is NOT the user id)
+   */
+
+  $curtime = time();
+  $query_text = "UPDATE `auth_tokens` SET `last_access` = '".$curtime."' WHERE `auth_tokens`.`id` = ".$token_id.";";
 
   if(mysqli_query($conn,$query_text)){
     return true;
