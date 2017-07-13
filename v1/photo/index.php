@@ -1,6 +1,5 @@
 <?php
 
-$json_dat = array(); //Initialize array for encoding data to json format
 $errors= array(); //Initialize array to store errors
 $thumb = false; //Will be set to true if looking for specific object
 //Require token validator
