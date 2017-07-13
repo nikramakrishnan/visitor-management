@@ -2,44 +2,58 @@
 
 $json_dat = array(); //Initialize array for encoding data to json format
 $errors= array(); //Initialize array to store errors
-
+$spec_object = false; //Will be set to true if looking for specific object
 //Require token validator
 require '../../res/scripts/token.php';
-/* This code must be un - commented when app implementation is completed.
- * It validates the token provided as POST data.
- * Without this, data will be displayed without authentication
 
-//Check if all data is set
-if(!isset($_POST['token'])){
-  $errors['post']="Required data not supplied. Please check documentation for more information.";
+$access_token = get_access_token();
+if(is_null($access_token)){
+  $errors['headers']="An active access token must be used to query information about the current visitors.";
+  $errors['type']="OAuthException";
+  $errors['code']="1190";
   kill($errors);
 }
 
 //Validate token
-$token_data=validate_token($_POST['token']);
+$token_data=validate_token($access_token);
 if(!$token_data['validated']){
-  $errors['access_token']="403: Invalid/expired token supplied.";
+  $errors['access_token']="Invalid OAuth access token.";
+  $errors['type']="OAuthException";
+  $errors['code']=$token_data['code'];
   kill($errors);
 }
 
-*/
 
 
 //Connect to the Database
 require '../../res/scripts/connect.php';
 
 //Run query and get result from SQL server
-$query_text = "SELECT card_no,name,entry_time,mobile,purpose FROM visitors WHERE in_campus=1 ORDER BY entry_time ASC;";
+$query_text = "SELECT visitor_id,card_no,name,entry_time,mobile,purpose FROM visitors WHERE in_campus=1 ORDER BY entry_time ASC;";
+
+//If specific visitor data is requested, provide that
+if(isset($_GET['v'])){
+  $spec_object = true; //Set specific object search
+  $get_id = mysqli_real_escape_string($conn,$_GET['v']);
+  $query_text = "SELECT visitor_id,card_no,name,entry_time,mobile,purpose FROM visitors WHERE `visitor_id`='$get_id' AND in_campus=1;";
+}
+
 if(!($result= mysqli_query($conn,$query_text))){
-  $error['server']="Server encountered an error. Please try again later";
+  $errors['server']="Server encountered an error. Please try again later";
+  $errors['type']="ServerSideException";
+  $errors['code']="1501";
   kill($errors);
 }
 $column_names = array();  //Initialize array for saving property
 
-//If no result found
-if(mysqli_num_rows($result)==0){
-  $errors['no_data']="No data available.";
-  kill($errors);
+if($spec_object){
+  // If no result found
+  if(mysqli_num_rows($result)==0){
+    $errors['no_data']="Unsupported get request. Object with ID '$get_id' does not exist. Please read the API documentation.";
+    $errors['type']="APIMethodException";
+    $errors['code']="1404";
+    kill($errors);
+  }
 }
 
 //Get column names
