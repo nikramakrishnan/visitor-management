@@ -69,8 +69,8 @@ if($thumb==true){
   $remoteImage = "../../images/thumb/".$filename;
 }
 if(!(file_exists($remoteImage))){
-  $errors['thumb']="Thumbnail was not generated. Please use full image.";
-  $errors['type']="APIMethodException";
+  $errors['image']="Image not available.";
+  $errors['type']="RequestedObjectException";
   $errors['code']="1415";
   kill($errors);
 }
