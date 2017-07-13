@@ -112,7 +112,7 @@ if(isset($_FILES['image'])){
     $uid_name = $uid.'.'.$file_ext;
     if(move_uploaded_file($file_tmp,"../../images/".$uid_name)){
       $success['image']=true;
-      $success['image_url']=$uid_name;
+      $success['visitor_id']=$uid;
       make_thumb("../../images/".$uid_name, "../../images/thumb/".$uid_name, 200);
     }
     else{
@@ -171,7 +171,7 @@ else{
 $json=array();
 if($flag==1){
   $json['success']=true;
-  $json['image_url']= $success['image_url'];
+  $json['visitor_id']= $success['visitor_id'];
 }
 else{
   $json['success']=false;
