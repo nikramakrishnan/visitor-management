@@ -7,6 +7,8 @@ $debug = array();
 //Check if all data is set
 if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'],$_POST['access_token'])){
   $errors['post']="Required data not supplied. Please check documentation for more information.";
+  $errors['type']="APIMethodException";
+  $errors['code']="2200";
   kill($errors);
 }
 
@@ -17,6 +19,8 @@ require '../../res/scripts/token.php';
 $token_data=validate_token($_POST['access_token']);
 if(!$token_data['validated']){
   $errors['access_token']="403: Invalid/expired token supplied.";
+  $errors['type']="OAuthException";
+  $errors['code']=$token_data['code'];
 }
 
 //Start validation only if all data is provided and token is valid
@@ -54,6 +58,8 @@ if(empty($errors)==true){
   }
   if(validate_cardno($cardno)==0){
     $errors['cardno']="Please enter a valid card number";
+    $errors['type']="APIMethodException";
+    $errors['code']="2400";
   }
 
   //Validate Mobile Number
@@ -62,12 +68,16 @@ if(empty($errors)==true){
   }
   if(validate_mobile($mobile)==0){
     $errors['mobile']="Please enter a valid mobile number";
+    $errors['type']="APIMethodException";
+    $errors['code']="2400";
   }
 
   //Validate purpose
   function validate_purpose($purpose){
     if(empty($purpose)){
       $errors['purpose']="Please select/enter a valid purpose";
+      $errors['type']="APIMethodException";
+      $errors['code']="2400";
     }
   }
 
@@ -85,11 +95,15 @@ if(isset($_FILES['image'])){
   $expensions= array("jpeg","jpg","png","bmp");
 
   if(in_array($file_ext,$expensions)=== false){
-    $errors['format']="400: Image file required";
+    $errors['format']="Image file required";
+    $errors['type']="APIMethodException";
+    $errors['code']="2415";
   }
 
   if($file_size > 5242880){
-    $errors['image_size']='400: File size must not be greater than than 5 MB';
+    $errors['image_size']='File size must not be greater than than 5 MB';
+    $errors['type']="APIMethodException";
+    $errors['code']="2400";
   }
 
   //If there are no errors yet, upload the image
@@ -103,11 +117,15 @@ if(isset($_FILES['image'])){
     }
     else{
       $errors['server']="Server encountered an error. Please try again later";
+      $errors['type']="ServerSideException";
+      $errors['code']="5501";
       $debug['upload']="Sorry, could not upload photo. Please try again in a while";
     }
   }
 }else{
   $errors['image']="Image file not supplied";
+  $errors['type']="APIMethodException";
+  $errors['code']="2200";
 }
 
 /* Generate file name for image.
@@ -124,6 +142,8 @@ if(empty($errors)==true){
 
   if(!mysqli_query($conn, $query_text)){
     $errors['server']="Server encountered an error. Please try again later";
+    $errors['type']="ServerSideException";
+    $errors['code']="5501";
     $debug['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
 
     delete_image(); //Delete image if SQL insertion was unsuccessful

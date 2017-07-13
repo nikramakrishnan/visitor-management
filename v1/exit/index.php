@@ -35,7 +35,7 @@ if(isset($_GET['v'])){
 else{
   $errors['message']="Unsupported get request. Please read the API documentation.";
   $errors['type']="APIMethodException";
-  $errors['code']="1100";
+  $errors['code']="3100";
   kill($errors);
 }
 
@@ -49,7 +49,7 @@ $query_text = "UPDATE `visitors` SET `exit_time` = '$datetime', `in_campus` = 0 
 if(!mysqli_query($conn,$query_text)){
   $errors['server']="Server encountered an error. Please try again later";
   $errors['type']="ServerSideException";
-  $errors['code']="1501";
+  $errors['code']="5501";
   kill($errors);
 }
 $column_names = array();  //Initialize array for saving property
@@ -58,7 +58,7 @@ $column_names = array();  //Initialize array for saving property
 if(mysqli_affected_rows($conn)==0){
   $errors['no_data']="Unsupported get request. Object with ID '$get_id' does not exist. Please read the API documentation.";
   $errors['type']="APIMethodException";
-  $errors['code']="1404";
+  $errors['code']="3404";
   kill($errors);
 }
 

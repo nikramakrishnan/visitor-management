@@ -48,7 +48,7 @@ $query_text = "SELECT `photo_ref` FROM visitors WHERE `visitor_id`='$get_id' AND
 if(!($result= mysqli_query($conn,$query_text))){
   $errors['server']="Server encountered an error. Please try again later";
   $errors['type']="ServerSideException";
-  $errors['code']="1501";
+  $errors['code']="5501";
   kill($errors);
 }
 
@@ -71,7 +71,7 @@ if($thumb==true){
 if(!(file_exists($remoteImage))){
   $errors['image']="Image not available.";
   $errors['type']="RequestedObjectException";
-  $errors['code']="1415";
+  $errors['code']="4515";
   kill($errors);
 }
 $imginfo = getimagesize($remoteImage);

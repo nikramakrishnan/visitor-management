@@ -17,6 +17,8 @@ $flag=0;
 
 if(!isset($_POST['username'],$_POST['password'])){
   $errors['post']="Username/password not supplied.";
+  $errors['type']="OAuthException";
+  $errors['code']="1157";
   kill($errors);
 }
 
@@ -45,6 +47,8 @@ $query_text="SELECT id,password,access_level FROM users WHERE username='$usernam
 
 if(!($result=mysqli_query($conn,$query_text))){
   $errors['server']="Server encountered an error. Please try again later";
+  $errors['type']="ServerSideException";
+  $errors['code']="5501";
   $debug['mysql']="Could not retrieve data from database. Error message: ".mysqli_error($conn);
   kill($errors);
 }
@@ -52,6 +56,8 @@ if(!($result=mysqli_query($conn,$query_text))){
 //If no result found
 if(mysqli_num_rows($result)==0){
   $errors['credentials']="Wrong username/password. Please try again.";
+  $errors['type']="OAuthException";
+  $errors['code']="1142";
   $debug['username']="Username ".$username." does not exist.";
   kill($errors);
 }
@@ -76,6 +82,8 @@ if(password_verify($password,$db_password)){
   $query_text = "INSERT INTO `auth_tokens` (`auth_key`, `user_id`, `creation_time`, `expiry`, `last_access`, `device_info`) VALUES ('$auth_key_db','".$_SESSION['id']."',$cur_time,$expiry, $cur_time, '$devinfo');";
   if(!mysqli_query($conn, $query_text)){
     $errors['server']="Server encountered an error. Please try again later";
+    $errors['type']="ServerSideException";
+    $errors['code']="5501";
     $debug['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
     kill($errors);
   }

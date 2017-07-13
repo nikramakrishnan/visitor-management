@@ -41,7 +41,7 @@ if(isset($_GET['v'])){
 if(!($result= mysqli_query($conn,$query_text))){
   $errors['server']="Server encountered an error. Please try again later";
   $errors['type']="ServerSideException";
-  $errors['code']="1501";
+  $errors['code']="5501";
   kill($errors);
 }
 $column_names = array();  //Initialize array for saving property
@@ -51,7 +51,7 @@ if($spec_object){
   if(mysqli_num_rows($result)==0){
     $errors['no_data']="Unsupported get request. Object with ID '$get_id' does not exist. Please read the API documentation.";
     $errors['type']="APIMethodException";
-    $errors['code']="1404";
+    $errors['code']="3404";
     kill($errors);
   }
 }

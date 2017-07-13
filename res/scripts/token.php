@@ -19,7 +19,7 @@ function validate_token($token){
     //Kill page
     $errors['server']="Server encountered an error. Please try again later";
     $errors['type']="ServerSideException";
-    $errors['code']="1501";
+    $errors['code']="5501";
     if(function_exists(kill)){
       kill($errors);
     }
