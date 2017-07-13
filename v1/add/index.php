@@ -94,11 +94,12 @@ if(isset($_FILES['image'])){
 
   //If there are no errors yet, upload the image
   if(empty($errors)==true){
-    $uid=generate_uuid();
+    $uid=generate_uuid(); //Also the Visitor ID
     $uid_name = $uid.'.'.$file_ext;
     if(move_uploaded_file($file_tmp,"../../images/".$uid_name)){
       $success['image']=true;
       $success['image_url']=$uid_name;
+      make_thumb("../../images/".$uid_name, "../../images/thumb/".$uid_name, 200);
     }
     else{
       $errors['server']="Server encountered an error. Please try again later";
@@ -113,13 +114,13 @@ if(isset($_FILES['image'])){
 * Activated the more_entropy parameter. This makes uniqid() more unique */
 function generate_uuid(){
   $unique_id=uniqid(mt_rand(1,99999), true);
-  $unique_id = str_replace('.', '',$unique_id);
+  $unique_id = hash('sha1',$unique_id);
   return $unique_id;
 }
 
 //If there are no errors yet, Add new row to database (visitors)
 if(empty($errors)==true){
-  $query_text = "INSERT INTO visitors (card_no, name, mobile, purpose, photo_ref, entry_time, added_by) VALUES ($cardno, '$name', '$mobile', '$purpose', '$uid_name', '$datetime','$user_id');";
+  $query_text = "INSERT INTO `visitors` (`visitor_id`, `card_no`, `name`, `mobile`, `purpose`, `photo_ref`, `entry_time`, `added_by`) VALUES ('$uid', $cardno, '$name', '$mobile', '$purpose', '$uid_name', '$datetime','$user_id');";
 
   if(!mysqli_query($conn, $query_text)){
     $errors['server']="Server encountered an error. Please try again later";
@@ -160,6 +161,59 @@ else{
 }
 header('Content-Type: application/json');
 echo json_encode($json,JSON_PRETTY_PRINT);
+
+function make_thumb($src, $dest, $desired_width) {
+
+  /* read the source image */
+  if(!($source_image = imageCreateFromAny($src))){
+    return false;
+  }
+  $width = imagesx($source_image);
+  $height = imagesy($source_image);
+
+  /* find the "desired height" of this thumbnail, relative to the desired width  */
+  $desired_height = floor($height * ($desired_width / $width));
+
+  /* create a new, "virtual" image */
+  $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
+
+  /* copy source image at a resized size */
+  imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
+
+  /* create the physical thumbnail image to its destination */
+  if(!(imagejpeg($virtual_image, $dest))){
+    return false;
+  }
+  return true;
+}
+
+function imageCreateFromAny($filepath) {
+    $type = exif_imagetype($filepath); // [] if you don't have exif you could use getImageSize()
+    $allowedTypes = array(
+        1,  // [] gif
+        2,  // [] jpg
+        3,  // [] png
+        6   // [] bmp
+    );
+    if (!in_array($type, $allowedTypes)) {
+        return false;
+    }
+    switch ($type) {
+        case 1 :
+            $im = imageCreateFromGif($filepath);
+        break;
+        case 2 :
+            $im = imageCreateFromJpeg($filepath);
+        break;
+        case 3 :
+            $im = imageCreateFromPng($filepath);
+        break;
+        case 6 :
+            $im = imageCreateFromBmp($filepath);
+        break;
+    }
+    return $im;
+}
 
 
 //Other Functions
