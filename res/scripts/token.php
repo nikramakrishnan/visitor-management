@@ -115,6 +115,14 @@ function get_access_token(){
       $token = $matches[1];
     }
   }
+  //Fix for weird HTTPS bug on 000
+  else if(isset($headers['authorization'])){
+    $matches = array();
+    preg_match('/(?:token|Token) (.*)/', $headers['authorization'], $matches);
+    if(isset($matches[1])){
+      $token = $matches[1];
+    }
+  }
   return $token;
 }
 ?>
