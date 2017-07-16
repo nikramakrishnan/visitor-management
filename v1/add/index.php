@@ -204,6 +204,7 @@ function make_thumb($src, $dest, $desired_width) {
   if(!(imagejpeg($virtual_image, $dest))){
     return false;
   }
+  imagedestroy($virtual_image);
   return true;
 }
 
