@@ -7,7 +7,7 @@ $errors= array(); //Initialize array to store errors
 require 'res/scripts/connect.php';
 
 //Run query and get result from SQL server
-$query_text = "SELECT card_no,name,entry_time,mobile,purpose FROM visitors WHERE in_campus=1 ORDER BY entry_time ASC;";
+$query_text = "SELECT card_no,name,entry_time,mobile,purpose,visitee_no FROM visitors WHERE in_campus=1 ORDER BY entry_time ASC;";
 if(!($result= mysqli_query($conn,$query_text))){
   $error['server']="Server encountered an error. Please try again later";
   kill($errors);
