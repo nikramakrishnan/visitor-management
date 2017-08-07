@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2017 at 05:19 PM
+-- Generation Time: Aug 07, 2017 at 05:56 PM
 -- Server version: 10.1.22-MariaDB
 -- PHP Version: 7.1.4
 
@@ -74,6 +74,27 @@ INSERT INTO `users` (`id`, `username`, `password`, `creation_time`, `remote_ip`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `visitees`
+--
+
+DROP TABLE IF EXISTS `visitees`;
+CREATE TABLE `visitees` (
+  `visitee_no` int(11) NOT NULL,
+  `name` varchar(30) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `visitees`
+--
+
+INSERT INTO `visitees` (`visitee_no`, `name`, `email`) VALUES
+(1, 'John Reese', 'ramana.ranganatham@bennett.edu.in'),
+(2, 'Harold Swift', 'nikhil.ramakrishnan@bennett.edu.in');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `visitors`
 --
 
@@ -121,6 +142,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `visitees`
+--
+ALTER TABLE `visitees`
+  ADD PRIMARY KEY (`visitee_no`);
+
+--
 -- Indexes for table `visitors`
 --
 ALTER TABLE `visitors`
@@ -135,17 +162,22 @@ ALTER TABLE `visitors`
 -- AUTO_INCREMENT for table `auth_tokens`
 --
 ALTER TABLE `auth_tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
+-- AUTO_INCREMENT for table `visitees`
+--
+ALTER TABLE `visitees`
+  MODIFY `visitee_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `visitor_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;COMMIT;
+  MODIFY `visitor_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
