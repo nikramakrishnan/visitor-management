@@ -1,2 +1,2 @@
-# ErrorDocument 404 /visitor-management/v1/404.php
+ErrorDocument 404 /visitor-management/v1/404.php
 # Not using this right now, should be implemented in production

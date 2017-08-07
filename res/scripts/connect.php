@@ -2,9 +2,9 @@
 //TODO - Reject/404 if directly opened via browser
 
 //Credentials
-$servername = "mysql4.gear.host";
-$username = "vms";
-$password = "FRt01#63Z";
+$servername = "localhost";//"mysql4.gear.host";
+$username = "root";//"vms";
+$password = "";//"FRt01#63Z";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password);

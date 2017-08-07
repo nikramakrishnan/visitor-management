@@ -31,6 +31,9 @@ if(empty($errors)==true){
   //The connection is in $conn
   require '../../res/scripts/connect.php';
 
+  //Mail sender function
+  require 'sendmail.php';
+
   //Assign variables to POST data and escape them
   $cardno = $_POST['cardno'];
   $name = mysqli_real_escape_string($conn,$_POST['name']);
@@ -143,11 +146,13 @@ function generate_uuid(){
 
 //If there are no errors yet, Add new row to database (visitors)
 if(empty($errors)==true){
-	if($visitee_no==-1)	
+	if($visitee_no==-1){
 	  $query_text = "INSERT INTO `visitors` (`visitor_id`, `card_no`, `name`, `mobile`, `purpose`, `photo_ref`, `entry_time`, `added_by`) VALUES ('$uid', $cardno, '$name', '$mobile', '$purpose', '$uid_name', '$datetime','$user_id');";
-	else
+  }
+  else{
 		$query_text = "INSERT INTO `visitors` (`visitor_id`, `card_no`, `name`, `mobile`, `purpose`, `photo_ref`, `entry_time`, `added_by`, `visitee_no`) VALUES ('$uid', $cardno, '$name', '$mobile', '$purpose', '$uid_name', '$datetime','$user_id', '$visitee_no' );";
 
+  }
   if(!mysqli_query($conn, $query_text)){
     $errors['server']="Server encountered an error. Please try again later";
     $errors['type']="ServerSideException";
@@ -187,9 +192,22 @@ else{
   //Development code
   if(!empty($debug) && $isdebug==="true") $json['debug']=$debug;
 }
-header('Content-Type: application/json');
-echo json_encode($json,JSON_PRETTY_PRINT);
+ignore_user_abort(true);
+set_time_limit(0);
 
+ob_start();
+// do initial processing here
+header('Content-Type: application/json');
+header("Content-Encoding: none");
+echo json_encode($json,JSON_PRETTY_PRINT);; // send the response
+header('Content-Length: '.ob_get_length());
+header('Connection: close');
+ob_end_flush();
+ob_flush();
+flush();
+if($visitee_no!=-1){
+  $email_status = email($conn,$visitee_no,$name,$purpose);
+}
 function make_thumb($src, $dest, $desired_width) {
 
   /* read the source image */
