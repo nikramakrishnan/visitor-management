@@ -42,7 +42,11 @@ if(empty($errors)==true){
 
   //Assign visitee number if provided otherwise remains default as -1
   if(isset($_POST['visitee_no']))
-  	$visitee_no = $_POST['visitee_no'];
+  	$visitee_no = mysqli_real_escape_string($conn,$_POST['visitee_no']);
+    $visitee_no = trim($visitee_no);
+    if(empty($visitee_no)){
+      $visitee_no = -1;
+    }
 
   //Assign variable to current DateTime
   $datetime = date("Y-m-d H:i:s");
