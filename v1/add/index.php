@@ -4,8 +4,10 @@ $errors= array();
 $success=array();
 $debug = array();
 $visitee_no = -1;
+$org = null;
+$address = null;
 
-//Check if all data is set
+//Check if all mandatory data is set
 if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'],$_POST['access_token'])){
   $errors['post']="Required data not supplied. Please check documentation for more information.";
   $errors['type']="APIMethodException";
@@ -41,12 +43,22 @@ if(empty($errors)==true){
   $purpose = mysqli_real_escape_string($conn,$_POST['purpose']);
 
   //Assign visitee number if provided otherwise remains default as -1
-  if(isset($_POST['visitee_no']))
+  if(isset($_POST['visitee_no'])){
   	$visitee_no = mysqli_real_escape_string($conn,$_POST['visitee_no']);
     $visitee_no = trim($visitee_no);
     if(empty($visitee_no)){
       $visitee_no = -1;
     }
+  }
+
+  //Get organization data
+  if(isset($_POST['org']))
+    $org = mysqli_real_escape_string($conn,trim($_POST['org']));
+
+  //Get address data
+  if(isset($_POST['address']))
+    $address = mysqli_real_escape_string($conn,trim($_POST['address']));
+
 
   //Assign variable to current DateTime
   $datetime = date("Y-m-d H:i:s");
@@ -150,13 +162,8 @@ function generate_uuid(){
 
 //If there are no errors yet, Add new row to database (visitors)
 if(empty($errors)==true){
-	if($visitee_no==-1){
-	  $query_text = "INSERT INTO `visitors` (`visitor_id`, `card_no`, `name`, `mobile`, `purpose`, `photo_ref`, `entry_time`, `added_by`) VALUES ('$uid', $cardno, '$name', '$mobile', '$purpose', '$uid_name', '$datetime','$user_id');";
-  }
-  else{
-		$query_text = "INSERT INTO `visitors` (`visitor_id`, `card_no`, `name`, `mobile`, `purpose`, `photo_ref`, `entry_time`, `added_by`, `visitee_no`) VALUES ('$uid', $cardno, '$name', '$mobile', '$purpose', '$uid_name', '$datetime','$user_id', '$visitee_no' );";
+  $query_text = "INSERT INTO `visitors` (`visitor_id`, `card_no`, `name`, `mobile`, `purpose`, `photo_ref`, `entry_time`, `added_by`, `visitee_no`, `org`, `address`) VALUES ('$uid', $cardno, '$name', '$mobile', '$purpose', '$uid_name', '$datetime','$user_id', '$visitee_no', '$org', '$address' );";
 
-  }
   if(!mysqli_query($conn, $query_text)){
     $errors['server']="Server encountered an error. Please try again later";
     $errors['type']="ServerSideException";
