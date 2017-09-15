@@ -44,7 +44,7 @@ function sendmail($email,$args){
   $mail->setFrom('bennettlaundry@gmail.com', 'Visitor Information');
 
   //Set an alternative reply-to address
-  $mail->addReplyTo('it-support@bennett.edu.in', 'IT Support');
+  //$mail->addReplyTo('it-support@bennett.edu.in', 'IT Support');
 
   //Set who the message is to be sent to
   $mail->addAddress($email);
