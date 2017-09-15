@@ -12,13 +12,13 @@ $date=date(" H:i:s d/m/Y");
 <ul>
   <li>Name: <strong><?php echo $args['visitor_name']; ?></strong></li>
   <?php if(!empty($args['visitor_org'])){
-  echo "  <li>Organization: <strong>".$args['visitor_org']."</strong></li>"
+  echo "  <li>Organization: <strong>".$args['visitor_org']."</strong></li>";
   } ?>
   <li>Mobile No: <strong><?php echo $args['visitor_mobile']; ?></strong></li>
   <li>Reason for Visit:<strong><?php echo $args['visit_reason']; ?></strong></li>
   <li>Date and Time: <strong><?php echo $date; ?></strong></li>
 </ul>
-<p>If you are not available on campus, please call up the visitor, or the main gate at +91 12 0719 9389.</p>
+<p>If you are not available on campus, please call up the visitor, or the main gate at <strong>+91-120-719-9389</strong>.</p>
 
 <p><br>Regards,<br>
 Visitor Management System</p><br>
