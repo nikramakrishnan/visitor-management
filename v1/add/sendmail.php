@@ -1,5 +1,5 @@
 <?php
-function email($conn,$visitee_no,$visitor_name,$visit_reason){
+function email($conn,$visitee_no,$visitor_name,$org,$mobile,$visit_reason){
 	require 'gmail2.php';
 	$mail_data = array();
 
@@ -17,6 +17,8 @@ function email($conn,$visitee_no,$visitor_name,$visit_reason){
 	$args = array();
 	$args['visitee_name'] = $visitee_row['name'];
 	$args['visitor_name'] = $visitor_name;
+	$args['visitor_org'] = $org;
+	$args['visitor_mobile'] = $mobile;
 	$args['visit_reason'] = $visit_reason;
 	// function logger($msg){
 	// $logdate=date("Y-m-d H:i:s");

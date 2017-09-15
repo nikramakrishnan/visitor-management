@@ -216,8 +216,10 @@ header('Connection: close');
 ob_end_flush();
 ob_flush();
 flush();
+
+// Start the processing for sending the mail
 if($visitee_no!=-1){
-  $email_status = email($conn,$visitee_no,$name,$purpose);
+  $email_status = email($conn,$visitee_no,$name,$org,$mobile,$purpose);
 }
 function make_thumb($src, $dest, $desired_width) {
 
