@@ -1,5 +1,5 @@
 <?php
-$date=date(" H:i:s d/m/Y");
+$date=date("H:i");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -15,8 +15,8 @@ $date=date(" H:i:s d/m/Y");
   echo "  <li>Organization: <strong>".$args['visitor_org']."</strong></li>";
   } ?>
   <li>Mobile No: <strong><?php echo $args['visitor_mobile']; ?></strong></li>
-  <li>Reason for Visit:<strong><?php echo $args['visit_reason']; ?></strong></li>
-  <li>Date and Time: <strong><?php echo $date; ?></strong></li>
+  <li>Reason for Visit: <strong><?php echo $args['visit_reason']; ?></strong></li>
+  <li>Arrival Time: <strong><?php echo $date; ?></strong></li>
 </ul>
 <p>If you are not available on campus, please call up the visitor, or the campus main gate security at <strong>+91-120-719-9389</strong>.</p>
 

@@ -15,7 +15,7 @@ function validate_token($token){
   if(!($result=mysqli_query($conn,$query_text))){
     $return_data['validated']=false;
     $return_data['error']="Could not connect to Database. Please try again later";
-    $return_data['code']="1501";
+    $return_data['code']="5501";
     //Kill page
     $errors['server']="Server encountered an error. Please try again later";
     $errors['type']="ServerSideException";

@@ -41,7 +41,7 @@ function sendmail($email,$args){
   $mail->Password = "laundrybu@123";
 
   //Set who the message is to be sent from
-  $mail->setFrom('bennettlaundry@gmail.com', 'Visitor Information');
+  $mail->setFrom('bennettlaundry@gmail.com', 'Visitor Info');
 
   //Set an alternative reply-to address
   //$mail->addReplyTo('it-support@bennett.edu.in', 'IT Support');
