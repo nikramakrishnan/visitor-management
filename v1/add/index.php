@@ -7,12 +7,12 @@ $visitee_no = -1;
 $org = null;
 $address = null;
 
+// Error Handler
+require_once '../res/kill.php';
+
 //Check if all mandatory data is set
 if(!isset($_POST['cardno'],$_POST['name'],$_POST['mobile'],$_POST['purpose'],$_POST['access_token'])){
-  $errors['post']="Required data not supplied. Please check documentation for more information.";
-  $errors['type']="APIMethodException";
-  $errors['code']="2200";
-  kill($errors);
+  kill('2200');
 }
 
 //Require token validator
@@ -21,9 +21,7 @@ require '../../res/scripts/token.php';
 //Validate token
 $token_data=validate_token($_POST['access_token']);
 if(!$token_data['validated']){
-  $errors['access_token']="403: Invalid/expired token supplied.";
-  $errors['type']="OAuthException";
-  $errors['code']=$token_data['code'];
+  kill('1403');
 }
 
 //Start validation only if all data is provided and token is valid
@@ -81,9 +79,7 @@ if(empty($errors)==true){
     return preg_match('/^[0-9]+$/', $numcard);
   }
   if(validate_cardno($cardno)==0){
-    $errors['cardno']="Please enter a valid card number";
-    $errors['type']="APIMethodException";
-    $errors['code']="2400";
+    kill('2301');
   }
 
   //Validate Mobile Number
@@ -91,17 +87,13 @@ if(empty($errors)==true){
     return preg_match('/^[+]?[0-9]{6,15}$/', $nummob);
   }
   if(validate_mobile($mobile)==0){
-    $errors['mobile']="Please enter a valid mobile number";
-    $errors['type']="APIMethodException";
-    $errors['code']="2400";
+    kill('2302');
   }
 
   //Validate purpose
   function validate_purpose($purpose){
     if(empty($purpose)){
-      $errors['purpose']="Please select/enter a valid purpose";
-      $errors['type']="APIMethodException";
-      $errors['code']="2400";
+      kill('2303');
     }
   }
 
@@ -119,15 +111,11 @@ if(isset($_FILES['image'])){
   $expensions= array("jpeg","jpg","png","bmp");
 
   if(in_array($file_ext,$expensions)=== false){
-    $errors['format']="Image file required";
-    $errors['type']="APIMethodException";
-    $errors['code']="2415";
+    kill('2415');
   }
 
   if($file_size > 5242880){
-    $errors['image_size']='File size must not be greater than than 5 MB';
-    $errors['type']="APIMethodException";
-    $errors['code']="2400";
+    kill('2400');
   }
 
   //If there are no errors yet, upload the image
@@ -140,16 +128,12 @@ if(isset($_FILES['image'])){
       make_thumb("../../images/".$uid_name, "../../images/thumb/".$uid_name, 200);
     }
     else{
-      $errors['server']="Server encountered an error. Please try again later";
-      $errors['type']="ServerSideException";
-      $errors['code']="5501";
       $debug['upload']="Sorry, could not upload photo. Please try again in a while";
+      kill('5501');
     }
   }
 }else{
-  $errors['image']="Image file not supplied";
-  $errors['type']="APIMethodException";
-  $errors['code']="2200";
+  kill('2200');
 }
 
 /* Generate file name for image.
@@ -165,14 +149,12 @@ if(empty($errors)==true){
   $query_text = "INSERT INTO `visitors` (`visitor_id`, `card_no`, `name`, `mobile`, `purpose`, `photo_ref`, `entry_time`, `added_by`, `visitee_no`, `org`, `address`) VALUES ('$uid', $cardno, '$name', '$mobile', '$purpose', '$uid_name', '$datetime','$user_id', '$visitee_no', '$org', '$address' );";
 
   if(!mysqli_query($conn, $query_text)){
-    $errors['server']="Server encountered an error. Please try again later";
-    $errors['type']="ServerSideException";
-    $errors['code']="5501";
     $debug['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
 
-    delete_image(); //Delete image if SQL insertion was unsuccessful
+    //Delete image if SQL insertion was unsuccessful
+    if(!delete_image()) kill('5501');
 
-    kill($errors); //Kill the process
+    kill('5501'); //Kill the process
   }
 }
 
@@ -275,21 +257,4 @@ function imageCreateFromAny($filepath) {
     return $im;
 }
 
-
-//Other Functions
-//This will stop excecution immediately and show corresponding error(s)
-function kill($errors){
-  //Development code
-  global $isdebug,$debug;
-  $json=array();
-  $json['success']=false;
-  $json['errors']=$errors;
-  //Development code
-  if(!empty($debug) && $isdebug==="true") $json['debug']=$debug;
-
-  //Echo the data
-  header('Content-Type: application/json');
-  echo json_encode($json,JSON_PRETTY_PRINT);
-  die(1);
-}
 ?>

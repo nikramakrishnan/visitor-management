@@ -1,0 +1,4 @@
+error codes not added to kill.php:
+	2600
+	3404
+	

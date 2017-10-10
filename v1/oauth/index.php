@@ -1,10 +1,12 @@
 <?php
 session_start();
 
-//Initialize array to store error/success data
-$errors = array();
+//Initialize array to store debug/success data
 $success = array();
 $debug = array();
+
+// Error Handler
+require_once '../res/kill.php';
 
 //Connect to the Database
 //The connection is in $conn
@@ -16,10 +18,7 @@ require '../../res/scripts/connect.php';
 $flag=0;
 
 if(!isset($_POST['username'],$_POST['password'])){
-  $errors['post']="Username/password not supplied.";
-  $errors['type']="OAuthException";
-  $errors['code']="1157";
-  kill($errors);
+  kill('1157');
 }
 
 //Get device information, if provided (for Android, this could be ANDROID_ID)
@@ -46,20 +45,14 @@ else {$isdebug = "false";}
 $query_text="SELECT id,password,access_level FROM users WHERE username='$username'";
 
 if(!($result=mysqli_query($conn,$query_text))){
-  $errors['server']="Server encountered an error. Please try again later";
-  $errors['type']="ServerSideException";
-  $errors['code']="5501";
   $debug['mysql']="Could not retrieve data from database. Error message: ".mysqli_error($conn);
-  kill($errors);
+  kill('5501');
 }
 
 //If no result found
 if(mysqli_num_rows($result)==0){
-  $errors['credentials']="Wrong username/password. Please try again.";
-  $errors['type']="OAuthException";
-  $errors['code']="1142";
   $debug['username']="Username ".$username." does not exist.";
-  kill($errors);
+  kill('1142');
 }
 
 //Get the data
@@ -81,11 +74,8 @@ if(password_verify($password,$db_password)){
   //Insert the values in the Database
   $query_text = "INSERT INTO `auth_tokens` (`auth_key`, `user_id`, `creation_time`, `expiry`, `last_access`, `device_info`) VALUES ('$auth_key_db','".$_SESSION['id']."',$cur_time,$expiry, $cur_time, '$devinfo');";
   if(!mysqli_query($conn, $query_text)){
-    $errors['server']="Server encountered an error. Please try again later";
-    $errors['type']="ServerSideException";
-    $errors['code']="5501";
     $debug['mysql']="Could not insert data into database. Error message: ".mysqli_error($conn);
-    kill($errors);
+    kill('5501');
   }
 
   //Add auth_key to success
@@ -101,30 +91,12 @@ if(password_verify($password,$db_password)){
 }
 //Else show error
 else{
-  $errors['credentials']="Wrong username/password. Please try again.";
-  $debug['password']="Incorrect password.";
-  kill($errors);
+  kill('1142');
 }
 
 //Function to generate Unique ID for session storage
 function generate_auth_key(){
   $auth_key = bin2hex(random_bytes(20)); //Cryptographically secure
   return $auth_key;
-}
-
-//This will stop excecution immediately and show corresponding error(s)
-function kill($errors){
-  //Development code
-  global $isdebug,$debug;
-  $json=array();
-  $json['success']=false;
-  $json['errors']=$errors;
-  //Development code
-  if(!empty($debug) && $isdebug==="true") $json['debug']=$debug;
-
-  //Echo the data
-  header('Content-Type: application/json');
-  echo json_encode($json,JSON_PRETTY_PRINT);
-  die(1);
 }
 ?>
