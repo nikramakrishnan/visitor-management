@@ -1,7 +1,11 @@
 <?php
+
+// Error Handler
+include_once '../../v1/res/kill.php';
+
 //Connect to the Database
 //The connection is in $conn
-require 'connect.php';
+require_once 'connect.php';
 
 function validate_token($token){
   //Variables

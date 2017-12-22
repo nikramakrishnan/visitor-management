@@ -1,8 +1,8 @@
 <?php
 //TODO - Reject/404 if directly opened via browser
 
-// Error Handler
-require_once '../../v1/res/kill.php';
+// Error Handler - NOT required here (things WILL break if the next line is uncommented)
+//require_once '../../v1/res/kill.php';
 
 //Credentials
 $servername = "localhost";//"mysql4.gear.host";

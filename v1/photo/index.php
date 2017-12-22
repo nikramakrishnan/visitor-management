@@ -1,9 +1,13 @@
 <?php
 
+//Connect to the Database
+//The connection is in $conn
+require_once '../../res/scripts/connect.php';
+
 $errors= array(); //Initialize array to store errors
 $thumb = false; //Will be set to true if looking for specific object
 //Require token validator
-require '../../res/scripts/token.php';
+require_once '../../res/scripts/token.php';
 
 // Error Handler
 require_once '../res/kill.php';
@@ -18,9 +22,6 @@ $token_data=validate_token($access_token);
 if(!$token_data['validated']){
   kill('1403');
 }
-
-//Connect to the Database
-require '../../res/scripts/connect.php';
 
 //Check if required parameter is given
 if(isset($_GET['v'])){

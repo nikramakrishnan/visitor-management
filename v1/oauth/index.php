@@ -1,16 +1,16 @@
 <?php
 session_start();
 
+//Connect to the Database
+//The connection is in $conn
+require_once '../../res/scripts/connect.php';
+
 //Initialize array to store debug/success data
 $success = array();
 $debug = array();
 
 // Error Handler
 require_once '../res/kill.php';
-
-//Connect to the Database
-//The connection is in $conn
-require '../../res/scripts/connect.php';
 
 /* Flag to check if the process was successful
 * 0 - There are errors (default)

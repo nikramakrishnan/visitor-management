@@ -1,5 +1,9 @@
 <?php
 
+//Connect to the Database
+//The connection is in $conn
+require_once '../../res/scripts/connect.php';
+
 $success = array();
 $errors= array(); //Initialize array to store errors
 $spec_object = false; //Will be set to true if looking for specific object
@@ -21,10 +25,6 @@ if(!$token_data['validated']){
   kill('1403');
 }
 
-
-
-//Connect to the Database
-require '../../res/scripts/connect.php';
 
 //Check if required parameter is given
 if(isset($_GET['v'])){

@@ -1,4 +1,9 @@
 <?php
+
+//Connect to the Database
+//The connection is in $conn
+require_once '../../res/scripts/connect.php';
+
 //Initialize array to store error/success data
 $errors= array();
 $success=array();
@@ -26,10 +31,6 @@ if(!$token_data['validated']){
 
 //Start validation only if all data is provided and token is valid
 if(empty($errors)==true){
-
-  //Connect to the Database
-  //The connection is in $conn
-  require '../../res/scripts/connect.php';
 
   //Mail sender function
   require 'sendmail.php';

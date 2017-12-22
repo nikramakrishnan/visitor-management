@@ -1,5 +1,7 @@
 <?php
 
+//Connect to the Database
+require_once '../../res/scripts/connect.php';
 
 $json_dat = array(); //Initialize array for encoding data to json format
 $spec_object = false; //Will be set to true if looking for specific object
@@ -19,11 +21,6 @@ $token_data=validate_token($access_token);
 if(!$token_data['validated']){
   kill('1403');
 }
-
-
-
-//Connect to the Database
-require '../../res/scripts/connect.php';
 
 //Run query and get result from SQL server
 $query_text = "SELECT visitor_id,card_no,name,entry_time,mobile,purpose FROM visitors WHERE in_campus=1 ORDER BY entry_time ASC;";
