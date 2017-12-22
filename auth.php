@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+//Get the next page
+$next = $_GET['next'];
+
 //Check if required data was supplied
 if(!isset($_POST['username'])||!isset($_POST['password'])){
   error("Please login to continue");
@@ -15,7 +19,7 @@ $username = mysqli_real_escape_string($conn,$username);
 $password = $_POST['password'];
 
 //Pass the query to the Database
-$query_text="SELECT password,access_level FROM users WHERE username='$username'";
+$query_text="SELECT password,access_level,id FROM users WHERE username='$username'";
 if(!($result=mysqli_query($conn,$query_text))){
   error("500: Internal Server Error. Please try again in a while.
           If problem persists, contact the developer with the Error Code <strong>".mysqli_errno($conn)."</strong>");
@@ -35,8 +39,8 @@ if(password_verify($password,$db_password)){
   $_SESSION['username']=$username;
   $_SESSION['access_level']=$data['access_level'];
   $_SESSION['id']=$data['id'];
-  echo 'Logged in.';
-  header('Location: home.php');
+  echo 'Log in successful. <a href="'.$next.'">Click here</a> if you are not redirected.';
+  header('Location: '.$next);
 }
 //Else go back to home page
 else{
@@ -45,10 +49,12 @@ else{
 
 //Function to supply error messages
 function error($errMsg){
+  global $next;
   $_SESSION['errMsg']=$errMsg;
   if(isset($_POST['username']))
     $_SESSION['errorusr']=$_POST['username'];
-  header('Location: index.php');
-  die("Error. If not redirected, <a href="/">Click here</a> to go to the Home Page.");
+    if($next=="home.php") header('Location: index.php');
+    else header('Location: index.php?next='.$next);
+  die("Error. If not redirected, <a href='/index.php?next=".$next.">Click here</a> to go to the Home Page.");
 }
 ?>
