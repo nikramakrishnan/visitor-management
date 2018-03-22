@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!isset($_SESSION['username'])){
+  header("location:index.php?next=newvisitor.php");
+  die('Please login to continue.');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,15 +41,19 @@
     <div class="header clearfix">
       <nav>
         <ul class="nav nav-pills pull-right">
-          <li role="presentation" class="active"><a href="home.php">Home</a></li>
-          <li role="presentation"><a href="#">About</a></li>
-          <li role="presentation"><a href="#">Help</a></li>
+          <li role="presentation"><a href="home.php">Home</a></li>
+          <li role="presentation" class="active"><a href="#">Add Visitor</a></li>
+          <li role="presentation"><a href="curvisitors.php">Current Visitors</a></li>
+          <li role="presentation"><a href="https://github.com/nikramakrishnan/visitor-management/wiki" target="_blank">Help</a></li>
         </ul>
       </nav>
-      <h3 class="text-muted">VMS</h3>
+      <h3 class="text-muted">Visitor Entry Demo</h3>
     </div>
 
     <form id="visitor" class="form-horizontal" action="v1/add/" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <p class="text-muted">Please note that optional fields such as address, organization and visitee are not included in this form.</p>
+      </div>
       <div class="form-group">
         <label class="control-label col-sm-2" for="cardno">Card Number:</label>
         <div class="col-sm-10">
@@ -82,6 +93,13 @@
         </div>
       </div>
       <div class="form-group">
+        <label class="control-label col-sm-2" for="access_token">Access Token:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="access_token" placeholder="Access Token" name="access_token" required>
+          <small id="access-token-help" class="form-text text-muted">Access token can be obtained from /v1/oauth/ endpoint. <a href="https://github.com/nikramakrishnan/visitor-management/wiki/API:-Generating-a-Token" target="_blank">Check documentation</a> for more information.</small>
+        </div>
+      </div>
+      <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <div class="checkbox">
             <label><input type="checkbox" name="remember" aria-describedby="agree" required>I agree that the data above is correct</label>
@@ -89,11 +107,12 @@
           <small id="agree" class="form-text text-muted">Furnising wrong information is liable to penalty/legal action</small>
         </div>
       </div>
-      <input type="hidden" name="access_token" value="aa77d525346a69468925fcfe5d18778340c89447">
+      <!-- <input type="hidden" name="access_token" value="4d146d21a4b8eb0e921389f36719b95beb30ebc3"> -->
       <!-- <input type="hidden" name="debug" value="1"> --> <!-- Uncomment previous comment to enable debug mode -->
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-default">Submit</button><br>
+          <small id="submit-help" class="form-text text-muted">This will redirect to /v1/add/ where output will be shown in JSON. <a href="https://github.com/nikramakrishnan/visitor-management/wiki/API:-Adding-a-Visitor" target="_blank">Check documentation</a> for more information.</small></small>
         </div>
       </div>
     </form>

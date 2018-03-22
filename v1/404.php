@@ -1,11 +1,16 @@
 <?php
 $error=array();
 $json=array();
-$error['message']="404: API endpoint does not exist";
-$error['type']="APIException";
-$json['success']=false;
-$json['errors']=$error;
+// Error Handler
+require_once 'res/kill.php';
 
-header('Content-Type: application/json');
-echo json_encode($json);
+//Get URI
+$path = $_SERVER['REQUEST_URI'];
+
+//Get substring after /v1
+$startpos = strpos($path, "/v1/")+3;
+$path = substr($path, $startpos);
+
+//Message
+kill('2600',$path);
 ?>

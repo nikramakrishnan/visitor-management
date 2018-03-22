@@ -1,1 +1,4 @@
 php_value date.timezone 'Asia/Kolkata'
+
+#Adjust default time zone
+SetEnv TZ Asia/Kolkata

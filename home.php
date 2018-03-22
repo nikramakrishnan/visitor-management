@@ -35,8 +35,4 @@ if(!isset($_SESSION['username'])){
     <p><a class="btn btn-lg btn-success" href="curvisitors.php" role="button">Current visitors</a></p>
   </div>
 
-  <div class = "container">
-    <p><a class="btn btn-lg btn-success" href="curvisitors_app.php" role="button">Current visitors for app</a></p>
-  </div>
-
 </body>

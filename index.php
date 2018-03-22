@@ -3,6 +3,8 @@ session_start();
 if(isset($_SESSION['username'])){
   header('Location: home.php');
 }
+$next = 'home.php';
+if(isset($_GET['next'])) $next=$_GET['next'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +28,7 @@ if(isset($_SESSION['username'])){
   </div>
   <div class="container">
     <h2>Login</h2>
-  <form class="form-horizontal" id="login" action="auth.php" method="POST"> <!-- Change action to "v1/oauth/" to get JSON Response with token -->
+  <form class="form-horizontal" id="login" action="auth.php?next=<?php echo $next; ?>" method="POST"> <!-- Change action to "v1/oauth/" to get JSON Response with token -->
     <div class="form-group">
       <label class="control-label col-sm-2" for="username">Username:</label>
       <div class="col-sm-10">
@@ -45,6 +47,13 @@ if(isset($_SESSION['username'])){
         <button type="submit" class="btn btn-default">Submit</button>
       </div>
     </div>
+    <?php if(isset($_GET['next'])) { echo '
+  	<div class="form-group">
+  		<div class="alert alert-info">
+  			Please log in to continue.
+  		</div>
+  	</div>
+  	';}?>
 	<?php if(isset($_SESSION['errMsg'])) { echo '
 	<div class="form-group">
 		<div class="alert alert-danger">

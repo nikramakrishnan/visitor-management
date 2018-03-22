@@ -1,3 +1,3 @@
-#Images stored locally should not be pushed
-/images/*
-!/images/README.md
+#Images stored locally should now be pushed for testing
+#/images/*
+#!/images/README.md
