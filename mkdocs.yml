@@ -1,0 +1,53 @@
+# Project information
+site_name: 'VMSAlpha Documentation'
+site_description: 'API Documentation for VMSAlpha'
+site_author: 'Nikhil Ramakrishnan'
+site_url: 'https://nikramakrishnan.github.io/visitor-management/'
+
+# Repository
+repo_name: 'nikramakrishnan/visitor-management'
+repo_url: 'https://github.com/nikramakrishnan/visitor-management'
+
+# Copyright
+copyright: 'Copyright &copy; 2017 - 2018 Nikhil Ramakrishnan'
+
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+  palette:
+    primary: 'indigo'
+    accent: 'indigo'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+
+# Pages
+pages:
+    - Home: 'index.md'
+    - Generating a Token: 'Generating-a-Token.md'
+    - Adding a Visitor: 'Adding-a-Visitor.md'
+    - Retrieve Current Visitors' Data: 'Retrieve-Current-Visitors_-Data.md'
+    - Retrieve Visitees' Data: 'Retrieve-Visitee-Data.md'
+    - Retrieve Visitor Photo: 'Retrieve-Visitor-Photo.md'
+    - Visitor Exit Record: 'Visitor-Exit-Record.md'
+    - Errors and Exceptions: 'Errors-and-Exceptions.md'
+
+
+# Customization
+extra:
+  social:
+    - type: 'github'
+      link: 'https://github.com/nikramakrishnan'
+    - type: 'twitter'
+      link: 'https://twitter.com/nikramakrishnan'
+    - type: 'linkedin'
+      link: 'https://linkedin.com/in/nikramakrishnan'
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: true
+  - toc:
+      permalink: true
