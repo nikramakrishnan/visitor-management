@@ -1,0 +1,459 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Visitor-Management\n is a backend implementation in PHP for a Visitor Management System that can be used (On Desktop or to make an app) to record and track Visitors on a premises. VMS is being built ground-up with corporate-level security in mind, and with the latest and the fastest version of PHP. It implements token-based authentication and JSON to make it easy for apps to communicate with the back-end.\n\n\nRunning on Local Server\n\u00b6\n\n\nMake sure you have xampp 7.1.4+ installed.  \n\n\nInstructions for xampp (Apache):\n\u00b6\n\n\nClone the repository in your htdocs folder -\n\n\ngit clone https://github.com/nikramakrishnan/visitor-management.git\n\n\n\n\n\nOR\n\nif you have already cloned the repository, run -\n\n\ngit pull\n\n\n\n\n\nSwitch to the \ndevelopment\n branch (\nWarning\n: This is unstable!) -\n\n\ngit checkout development\n\n\n\n\n\nNow, start Apache and MySQL, and create a database named \nvms\n, if not already exists.  \n\n\nNow import the \nvms(x.y).sql\n file in the database to create the required table(s).  \n\n\nThe VMS is now ready to work!  \n\n\nCredentials\n\u00b6\n\n\nThe default credentials used to login at \nindex.php\n are -  \n\n\n\n\n\n\n\n\nUsername\n\n\nadmin\n\n\n\n\n\n\n\n\n\n\nPassword\n\n\npassword\n\n\n\n\n\n\n\n\nSession is maintained as a PHP session (uses cookies), and most requests will return data in \nJSON\n format (so that the app can understand it easily!)\n\n\nContributing\n\u00b6\n\n\nPlease note that all code must be readable and comments should be used wherever required.\n\nDatabase and table names must be generic easy to understand.",
+            "title": "Home"
+        },
+        {
+            "location": "/#running-on-local-server",
+            "text": "Make sure you have xampp 7.1.4+ installed.",
+            "title": "Running on Local Server"
+        },
+        {
+            "location": "/#instructions-for-xampp-apache",
+            "text": "Clone the repository in your htdocs folder -  git clone https://github.com/nikramakrishnan/visitor-management.git  OR \nif you have already cloned the repository, run -  git pull  Switch to the  development  branch ( Warning : This is unstable!) -  git checkout development  Now, start Apache and MySQL, and create a database named  vms , if not already exists.    Now import the  vms(x.y).sql  file in the database to create the required table(s).    The VMS is now ready to work!",
+            "title": "Instructions for xampp (Apache):"
+        },
+        {
+            "location": "/#credentials",
+            "text": "The default credentials used to login at  index.php  are -       Username  admin      Password  password     Session is maintained as a PHP session (uses cookies), and most requests will return data in  JSON  format (so that the app can understand it easily!)",
+            "title": "Credentials"
+        },
+        {
+            "location": "/#contributing",
+            "text": "Please note that all code must be readable and comments should be used wherever required. \nDatabase and table names must be generic easy to understand.",
+            "title": "Contributing"
+        },
+        {
+            "location": "/Generating-a-Token/",
+            "text": "Warning\n\n\nThis API is still under development and may undergo major changes without change in version number. This documentation may become \nincomplete\n or \nincorrect\n at any time, until this notice is removed.  \n\n\n\n\nAn access token is an opaque string that identifies a user, and can be used by the app to make API calls. The reply includes information about when the token will expire.  \n\n\nA client needs to obtain an Access Token in order to request information and communicate with the server. This access token is issued upon a successful login by the user, and expires every 30 days, after which, the user must authenticate again.  \n\n\nGenerating Access Tokens\n\u00b6\n\n\nRequest\n\u00b6\n\n\nTo generate an app access token, you need to make a API call to the \n/v1/oauth/\n endpoint:  \n\n\nPOST /v1/oauth/\n\n\n     ?username={username}\n\n\n     &password={password}\n\n\n     [&device-info={device-info}\n\n\n     &debug={value}]\n\n\n\n\n\n\nMethod URL\n\u00b6\n\n\n/v1/oauth/\n \n\n\n\n\nNote\n\n\nDue to the how XAMPP Apache is configured, \nPOST\n requests will be discarded if the trailing slash (\n/\n) is not added in the end of the URL. Please make sure to either use a trailing slash, or supply the request to \n/v1/add/index.php\n\n\n\n\nRequired Parameters\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nusername\n\n\nstring\n\n\nUsername of the user\n\n\n\n\n\n\npassword\n\n\nstring\n\n\nPassword of the user\n\n\n\n\n\n\n\n\nOptional Parameters\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ndevice-info\n\n\nstring\n\n\nInformation of the device (Max length - 200)\n\n\n\n\n\n\ndebug\n\n\nint\n\n\nSee below for valid values\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nWill be only available in \nDevelopment\n branch.\n\n\n\n\n\n\n0 = Disable debug mode (default)\n\n\n1 = Enable debug mode\n\n\n\n\nResponse\n\u00b6\n\n\nThe response generated will be in \nJSON\n.\n\n\nSample Response\n\u00b6\n\n\n{\n\n  \n\"success\"\n:\n \ntrue\n,\n\n  \n\"data\"\n:\n \n{\n\n    \n\"access_token\"\n:\n \n\"6a9382f695dc36f38e46dc08726fc8a3a22a270f\"\n,\n\n    \n\"expiry\"\n:\n \n1501257349\n\n  \n}\n\n\n}\n\n\n\n\n\n\nResponse Parameters\n\u00b6\n\n\nSuccessful Request\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\ntrue - for successful request\n\n\n\n\n\n\ndata\n\n\nJSON Obejct\n\n\nContains token information which may include the following:\n\n\n\n\n\n\naccess_token\n\n\nstring\n\n\nActual token. Used to send requests\n\n\n\n\n\n\nexpiry\n\n\nint\n\n\nExpiry time of token (UNIX Timestamp)\n\n\n\n\n\n\n\n\nBad Request\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\nfalse - for unsuccessful request\n\n\n\n\n\n\nerrors\n\n\nJSON Object\n\n\nContains error information (see error documentation)\n\n\n\n\n\n\n\n\nOAuth errors in the \nerrors\n object are documented in \nErrors and Exceptions\n.\n\n\nDebug Mode Enabled\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ndebug\n\n\nJSON Object\n\n\nContains debugging data which may include the following:\n\n\n\n\n\n\nmysql\n\n\nstring\n\n\nReturns the MYSQL error when query fails\n\n\n\n\n\n\nusername\n\n\nstring\n\n\nUsername not found\n\n\n\n\n\n\npassword\n\n\nstring\n\n\nPassword incorrect\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nReturned only with debug mode enabled.\n\n\n\n\nBest Practices\n\u00b6\n\n\n\n\nSupplying Device Information\n: It is recommended that the client supplies device information, so that sessions can be identified easily. Not doing so will default device info to \nUnknown\n, and may lead to deauthorization the device.",
+            "title": "Generating a Token"
+        },
+        {
+            "location": "/Generating-a-Token/#generating-access-tokens",
+            "text": "",
+            "title": "Generating Access Tokens"
+        },
+        {
+            "location": "/Generating-a-Token/#request",
+            "text": "To generate an app access token, you need to make a API call to the  /v1/oauth/  endpoint:    POST /v1/oauth/       ?username={username}       &password={password}       [&device-info={device-info}       &debug={value}]",
+            "title": "Request"
+        },
+        {
+            "location": "/Generating-a-Token/#method-url",
+            "text": "/v1/oauth/     Note  Due to the how XAMPP Apache is configured,  POST  requests will be discarded if the trailing slash ( / ) is not added in the end of the URL. Please make sure to either use a trailing slash, or supply the request to  /v1/add/index.php",
+            "title": "Method URL"
+        },
+        {
+            "location": "/Generating-a-Token/#required-parameters",
+            "text": "name  type  description      username  string  Username of the user    password  string  Password of the user",
+            "title": "Required Parameters"
+        },
+        {
+            "location": "/Generating-a-Token/#optional-parameters",
+            "text": "name  type  description      device-info  string  Information of the device (Max length - 200)    debug  int  See below for valid values      Note  Will be only available in  Development  branch.    0 = Disable debug mode (default)  1 = Enable debug mode",
+            "title": "Optional Parameters"
+        },
+        {
+            "location": "/Generating-a-Token/#response",
+            "text": "The response generated will be in  JSON .",
+            "title": "Response"
+        },
+        {
+            "location": "/Generating-a-Token/#sample-response",
+            "text": "{ \n   \"success\" :   true , \n   \"data\" :   { \n     \"access_token\" :   \"6a9382f695dc36f38e46dc08726fc8a3a22a270f\" , \n     \"expiry\" :   1501257349 \n   }  }",
+            "title": "Sample Response"
+        },
+        {
+            "location": "/Generating-a-Token/#response-parameters",
+            "text": "",
+            "title": "Response Parameters"
+        },
+        {
+            "location": "/Generating-a-Token/#successful-request",
+            "text": "name  type  description      success  boolean  true - for successful request    data  JSON Obejct  Contains token information which may include the following:    access_token  string  Actual token. Used to send requests    expiry  int  Expiry time of token (UNIX Timestamp)",
+            "title": "Successful Request"
+        },
+        {
+            "location": "/Generating-a-Token/#bad-request",
+            "text": "name  type  description      success  boolean  false - for unsuccessful request    errors  JSON Object  Contains error information (see error documentation)     OAuth errors in the  errors  object are documented in  Errors and Exceptions .",
+            "title": "Bad Request"
+        },
+        {
+            "location": "/Generating-a-Token/#debug-mode-enabled",
+            "text": "name  type  description      debug  JSON Object  Contains debugging data which may include the following:    mysql  string  Returns the MYSQL error when query fails    username  string  Username not found    password  string  Password incorrect      Note  Returned only with debug mode enabled.",
+            "title": "Debug Mode Enabled"
+        },
+        {
+            "location": "/Generating-a-Token/#best-practices",
+            "text": "Supplying Device Information : It is recommended that the client supplies device information, so that sessions can be identified easily. Not doing so will default device info to  Unknown , and may lead to deauthorization the device.",
+            "title": "Best Practices"
+        },
+        {
+            "location": "/Adding-a-Visitor/",
+            "text": "Warning\n\n\nThis API is still under development and may undergo major changes without change in version number. This documentation may become \nincomplete\n or \nincorrect\n at any time, until this notice is removed.  \n\n\n\n\nA visitor entry is a record of a person visiting someone or somewhere.\n\n\nAdding a Visitor Entry\n\u00b6\n\n\nA visitor entry can be added using the \n/v1/add/\n endpoint.  \n\n\nRequest\n\u00b6\n\n\nThe request should be POST with \nmultipart/form-data\n encoding. (\nReference for Android\n).\n\n\nPOST /v1/add/\n\n\n     ?cardno={card-number}\n\n\n     &name={visitor-name}\n\n\n     &mobile={mobile-number}\n\n\n     &purpose={value}\n\n\n     &image={image-data}\n\n\n     &access_token={token}\n\n\n     [&debug={value}]\n\n\n\n\n\n\nMethod URL\n\u00b6\n\n\n/v1/add/\n \n\n\n\n\nNote\n\n\nDue to the how XAMPP Apache is configured, \nPOST\n requests will be discarded if the trailing slash (\n/\n) is not added in the end of the URL. Please make sure to either use a trailing slash, or supply the request to \n/v1/add/index.php\n\n\n\n\nRequired Parameters\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ncardno\n\n\nstring\n\n\nCard number of the visitor (1<cardno<10000)\n\n\n\n\n\n\nname\n\n\nstring\n\n\nVisitor name (length<50)\n\n\n\n\n\n\nmobile\n\n\nstring\n\n\nVisitor mobile number (5<length<11)\n\n\n\n\n\n\npurpose\n\n\ninteger\n\n\nSee below for valid values\n\n\n\n\n\n\nimage\n\n\nmultipart/form-data\n\n\nImage file (see below for accepted formats)\n\n\n\n\n\n\naccess_token\n\n\nstring\n\n\nThe user's access token\n\n\n\n\n\n\n\n\nPurpose\n\u00b6\n\n\nThe purpose is a string (max. length = 50). It should ideally be short and precise, such as 'Delivery', or 'Meeting' etc.\n\n\nImage\n\u00b6\n\n\nThe image must be sent as a \nmultipart/form-data\n with correct request headers.\n\nSupported Formats:  \n\n\n\n\nJPEG\n\n\nPNG\n\n\nBMP\n\n\n\n\n\n\nSome caveats\n\n\n\n\nIf you upload a PNG file, try keep the file size below 1 MB. PNG files larger than 1 MB may appear pixelated after upload.\n\n\nCheck the file size of your photos. We recommend uploading photos under 4MB.\n\n\n\n\n\n\nOptional Parameters\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nvisitee_no\n\n\nint\n\n\nSee below for valid values\n\n\n\n\n\n\ndebug\n\n\nint\n\n\nSee below for valid values\n\n\n\n\n\n\n\n\nvisitee_no\n\u00b6\n\n\nThe id of the visitee (person to visit), retrieved from \n/get/visitee/\n endpoint.\n\n\ndebug\n\u00b6\n\n\n\n\nNote\n\n\nWill be only available in \nDevelopment\n branch.  \n\n\n\n\n\n\n0 = Disable debug mode (default)\n\n\n1 = Enable debug mode\n\n\n\n\nResponse\n\u00b6\n\n\nThe response generated will be in \nJSON\n.\n\n\nSample Response\n\u00b6\n\n\n{\n\n  \n\"success\"\n:\n \ntrue\n,\n\n  \n\"visitor_id\"\n:\n \n\"65034595a070faf841654619627\"\n\n\n}\n\n\n\n\n\n\nResponse Parameters\n\u00b6\n\n\nSuccessful Request\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\ntrue - for successful request\n\n\n\n\n\n\nvisitor_id\n\n\nstring\n\n\nUnique ID for the visitor entry\n\n\n\n\n\n\n\n\nBad Request\n\u00b6\n\n\n\n\n\n\n\n\nCode\n\n\nName\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\nfalse - for unsuccessful request\n\n\n\n\n\n\nerrors\n\n\nJSON Object\n\n\nContains error information which may include the following:\n\n\n\n\n\n\n2301\n\n\nIncorrect format\n\n\nIncorrect format for card number (see above for accepted formats)\n\n\n\n\n\n\n2302\n\n\nIncorrect format\n\n\nIncorrect format for mobile number (see above for accepted formats)\n\n\n\n\n\n\n2303\n\n\nIncorrect format\n\n\nIncorrect purpose data supplied (see above for accepted formats)\n\n\n\n\n\n\n2415\n\n\nIncorrect image extension\n\n\nImage file with correct extension not supplied (see above for accepted extensions)\n\n\n\n\n\n\n\n\nAlso may include general OAuth and Server errors as documented in \nErrors and Exceptions\n.\n\n\nDebug Mode Enabled\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\ndebug\n\n\nJSON Object\n\n\nContains debugging data which may include the following:\n\n\n\n\n\n\nmysql\n\n\nstring\n\n\nReturns the MYSQL error when query fails\n\n\n\n\n\n\nupload\n\n\nstring\n\n\nProblems with uploading photo (server-side)\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nReturned only with debug mode enabled.\n\n\n\n\nBest Practices\n\u00b6\n\n\n\n\nPhoto\n: It is recommended that the photo is uploaded with the following specifications:\n\n\nFormat: JPEG/PNG\n\n\nSize: Not more than 1MB (apply required lossless/lossy compression client-side)\n\n\nMake sure the loss in quality (in case of lossy compression) does not make the image too pixelated to be viewed on a computer screen.",
+            "title": "Adding a Visitor"
+        },
+        {
+            "location": "/Adding-a-Visitor/#adding-a-visitor-entry",
+            "text": "A visitor entry can be added using the  /v1/add/  endpoint.",
+            "title": "Adding a Visitor Entry"
+        },
+        {
+            "location": "/Adding-a-Visitor/#request",
+            "text": "The request should be POST with  multipart/form-data  encoding. ( Reference for Android ).  POST /v1/add/       ?cardno={card-number}       &name={visitor-name}       &mobile={mobile-number}       &purpose={value}       &image={image-data}       &access_token={token}       [&debug={value}]",
+            "title": "Request"
+        },
+        {
+            "location": "/Adding-a-Visitor/#method-url",
+            "text": "/v1/add/     Note  Due to the how XAMPP Apache is configured,  POST  requests will be discarded if the trailing slash ( / ) is not added in the end of the URL. Please make sure to either use a trailing slash, or supply the request to  /v1/add/index.php",
+            "title": "Method URL"
+        },
+        {
+            "location": "/Adding-a-Visitor/#required-parameters",
+            "text": "name  type  description      cardno  string  Card number of the visitor (1<cardno<10000)    name  string  Visitor name (length<50)    mobile  string  Visitor mobile number (5<length<11)    purpose  integer  See below for valid values    image  multipart/form-data  Image file (see below for accepted formats)    access_token  string  The user's access token",
+            "title": "Required Parameters"
+        },
+        {
+            "location": "/Adding-a-Visitor/#purpose",
+            "text": "The purpose is a string (max. length = 50). It should ideally be short and precise, such as 'Delivery', or 'Meeting' etc.",
+            "title": "Purpose"
+        },
+        {
+            "location": "/Adding-a-Visitor/#image",
+            "text": "The image must be sent as a  multipart/form-data  with correct request headers. \nSupported Formats:     JPEG  PNG  BMP    Some caveats   If you upload a PNG file, try keep the file size below 1 MB. PNG files larger than 1 MB may appear pixelated after upload.  Check the file size of your photos. We recommend uploading photos under 4MB.",
+            "title": "Image"
+        },
+        {
+            "location": "/Adding-a-Visitor/#optional-parameters",
+            "text": "name  type  description      visitee_no  int  See below for valid values    debug  int  See below for valid values",
+            "title": "Optional Parameters"
+        },
+        {
+            "location": "/Adding-a-Visitor/#visitee_no",
+            "text": "The id of the visitee (person to visit), retrieved from  /get/visitee/  endpoint.",
+            "title": "visitee_no"
+        },
+        {
+            "location": "/Adding-a-Visitor/#debug",
+            "text": "Note  Will be only available in  Development  branch.      0 = Disable debug mode (default)  1 = Enable debug mode",
+            "title": "debug"
+        },
+        {
+            "location": "/Adding-a-Visitor/#response",
+            "text": "The response generated will be in  JSON .",
+            "title": "Response"
+        },
+        {
+            "location": "/Adding-a-Visitor/#sample-response",
+            "text": "{ \n   \"success\" :   true , \n   \"visitor_id\" :   \"65034595a070faf841654619627\"  }",
+            "title": "Sample Response"
+        },
+        {
+            "location": "/Adding-a-Visitor/#response-parameters",
+            "text": "",
+            "title": "Response Parameters"
+        },
+        {
+            "location": "/Adding-a-Visitor/#successful-request",
+            "text": "name  type  description      success  boolean  true - for successful request    visitor_id  string  Unique ID for the visitor entry",
+            "title": "Successful Request"
+        },
+        {
+            "location": "/Adding-a-Visitor/#bad-request",
+            "text": "Code  Name  Description      success  boolean  false - for unsuccessful request    errors  JSON Object  Contains error information which may include the following:    2301  Incorrect format  Incorrect format for card number (see above for accepted formats)    2302  Incorrect format  Incorrect format for mobile number (see above for accepted formats)    2303  Incorrect format  Incorrect purpose data supplied (see above for accepted formats)    2415  Incorrect image extension  Image file with correct extension not supplied (see above for accepted extensions)     Also may include general OAuth and Server errors as documented in  Errors and Exceptions .",
+            "title": "Bad Request"
+        },
+        {
+            "location": "/Adding-a-Visitor/#debug-mode-enabled",
+            "text": "name  type  description      debug  JSON Object  Contains debugging data which may include the following:    mysql  string  Returns the MYSQL error when query fails    upload  string  Problems with uploading photo (server-side)      Note  Returned only with debug mode enabled.",
+            "title": "Debug Mode Enabled"
+        },
+        {
+            "location": "/Adding-a-Visitor/#best-practices",
+            "text": "Photo : It is recommended that the photo is uploaded with the following specifications:  Format: JPEG/PNG  Size: Not more than 1MB (apply required lossless/lossy compression client-side)  Make sure the loss in quality (in case of lossy compression) does not make the image too pixelated to be viewed on a computer screen.",
+            "title": "Best Practices"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/",
+            "text": "Warning\n\n\nThis API is still under development and may undergo major changes without change in version number. This documentation may become \nincomplete\n or \nincorrect\n at any time, until this notice is removed.  \n\n\n\n\n'Current Visitor' is defined as a visitor still inside the premises.\n\n\nGetting Visitors' Data\n\u00b6\n\n\nVisitor data can be retrieved using the \n/v1/get/\n endpoint.  \n\n\nRequest\n\u00b6\n\n\nSupply a GET request the Authorization Header. If data for a specific visitor is required, also supply the corresponding Visitor ID.\n\n\nRetrieve all current visitors' data\n\u00b6\n\n\nGET  /v1/get/\nAuthorization: Token <access_token>\n\n\n\n\n\nRetrieve data for a specific visitor\n\u00b6\n\n\nGET  /v1/get/<visitor-ID>\nAuthorization: Token <access_token>\n\n\n\n\n\nMethod URL\n\u00b6\n\n\n/v1/get/\n or \nv1/get/<visitor-ID>\n\n\nRequired Parameters\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nvisitor ID\n\n\nstring\n\n\nVisitor ID of the visitor as specified above\n\n\n\n\n\n\naccess_token\n\n\nstring\n\n\nThe user's access token in the form of an Authorization header as specified above\n\n\n\n\n\n\n\n\nResponse\n\u00b6\n\n\nThe response generated will be in \nJSON\n.\n\n\nSample Response\n\u00b6\n\n\nRequest\n\u00b6\n\n\nGET  v1/get/ec2a335401e3d08e6ab5575aed394a971fe39d44\n\n\n\n\n\nResponse\n\u00b6\n\n\n{\n\n    \n\"success\"\n:\n \ntrue\n,\n\n    \n\"data\"\n:\n \n[\n\n        \n{\n\n            \n\"visitor_id\"\n:\n \n\"ec2a335401e3d08e6ab5575aed394a971fe39d44\"\n,\n\n            \n\"card_no\"\n:\n \n\"42\"\n,\n\n            \n\"name\"\n:\n \n\"Douglas Adams\"\n,\n\n            \n\"entry_time\"\n:\n \n\"2017-07-13 15:54:05\"\n,\n\n            \n\"mobile\"\n:\n \n\"4242424242\"\n,\n\n            \n\"purpose\"\n:\n \n\"5\"\n\n        \n}\n\n    \n]\n\n\n}\n\n\n\n\n\n\nResponse Parameters\n\u00b6\n\n\nSuccessful Request\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\ntrue - for successful request\n\n\n\n\n\n\ndata\n\n\nJSON Array\n\n\nJSON Array consisting of multiple entries with every entry having:\n\n\n\n\n\n\nvisitor_id\n\n\nstring\n\n\nVisitor ID of the entry\n\n\n\n\n\n\ncard_no\n\n\nstring\n\n\nCard number of the visitor (1<cardno<10000)\n\n\n\n\n\n\nname\n\n\nstring\n\n\nVisitor name (length<50)\n\n\n\n\n\n\nentry_time\n\n\nstring\n\n\nEntry time of the visitor in \nYYYY-MM-DD HH:ii:ss\n format\n\n\n\n\n\n\nmobile\n\n\nstring\n\n\nVisitor's mobile number\n\n\n\n\n\n\npurpose\n\n\ninteger\n\n\nSee below for valid values\n\n\n\n\n\n\n\n\nBad Request\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\nfalse - for unsuccessful request\n\n\n\n\n\n\nerrors\n\n\nJSON Object\n\n\nContains error information which may include the following:\n\n\n\n\n\n\n3404\n\n\nstring\n\n\nInvalid visitor ID (APIMethodException)\n\n\n\n\n\n\n\n\nAlso may include general OAuth and Server errors as documented in \nErrors and Exceptions\n.",
+            "title": "Retrieve Current Visitors' Data"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#getting-visitors-data",
+            "text": "Visitor data can be retrieved using the  /v1/get/  endpoint.",
+            "title": "Getting Visitors' Data"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#request",
+            "text": "Supply a GET request the Authorization Header. If data for a specific visitor is required, also supply the corresponding Visitor ID.",
+            "title": "Request"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#retrieve-all-current-visitors-data",
+            "text": "GET  /v1/get/\nAuthorization: Token <access_token>",
+            "title": "Retrieve all current visitors' data"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#retrieve-data-for-a-specific-visitor",
+            "text": "GET  /v1/get/<visitor-ID>\nAuthorization: Token <access_token>",
+            "title": "Retrieve data for a specific visitor"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#method-url",
+            "text": "/v1/get/  or  v1/get/<visitor-ID>",
+            "title": "Method URL"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#required-parameters",
+            "text": "name  type  description      visitor ID  string  Visitor ID of the visitor as specified above    access_token  string  The user's access token in the form of an Authorization header as specified above",
+            "title": "Required Parameters"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#response",
+            "text": "The response generated will be in  JSON .",
+            "title": "Response"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#sample-response",
+            "text": "",
+            "title": "Sample Response"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#request_1",
+            "text": "GET  v1/get/ec2a335401e3d08e6ab5575aed394a971fe39d44",
+            "title": "Request"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#response_1",
+            "text": "{ \n     \"success\" :   true , \n     \"data\" :   [ \n         { \n             \"visitor_id\" :   \"ec2a335401e3d08e6ab5575aed394a971fe39d44\" , \n             \"card_no\" :   \"42\" , \n             \"name\" :   \"Douglas Adams\" , \n             \"entry_time\" :   \"2017-07-13 15:54:05\" , \n             \"mobile\" :   \"4242424242\" , \n             \"purpose\" :   \"5\" \n         } \n     ]  }",
+            "title": "Response"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#response-parameters",
+            "text": "",
+            "title": "Response Parameters"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#successful-request",
+            "text": "name  type  description      success  boolean  true - for successful request    data  JSON Array  JSON Array consisting of multiple entries with every entry having:    visitor_id  string  Visitor ID of the entry    card_no  string  Card number of the visitor (1<cardno<10000)    name  string  Visitor name (length<50)    entry_time  string  Entry time of the visitor in  YYYY-MM-DD HH:ii:ss  format    mobile  string  Visitor's mobile number    purpose  integer  See below for valid values",
+            "title": "Successful Request"
+        },
+        {
+            "location": "/Retrieve-Current-Visitors_-Data/#bad-request",
+            "text": "name  type  description      success  boolean  false - for unsuccessful request    errors  JSON Object  Contains error information which may include the following:    3404  string  Invalid visitor ID (APIMethodException)     Also may include general OAuth and Server errors as documented in  Errors and Exceptions .",
+            "title": "Bad Request"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/",
+            "text": "Warning\n\n\nThis API is still under development and may undergo major changes without change in version number. This documentation may become \nincomplete\n or \nincorrect\n at any time, until this notice is removed.  \n\n\n\n\n'Visitee' is defined as a person/employee whom the visitor intends to visit.\n\n\nGetting Visitees' Data\n\u00b6\n\n\nVisitor data can be retrieved using the \n/v1/get/visitee/\n endpoint.  \n\n\nRequest\n\u00b6\n\n\nSupply a GET request with the Authorization Header.\n\n\nRetrieve all available visitees' data\n\u00b6\n\n\nGET  /v1/get/visitee/\nAuthorization: Token <access_token>\n\n\n\n\n\nMethod URL\n\u00b6\n\n\n/v1/get/visitee/\n\n\nRequired Parameters\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\naccess_token\n\n\nstring\n\n\nThe user's access token in the form of an Authorization header as specified above\n\n\n\n\n\n\n\n\nResponse\n\u00b6\n\n\nThe response generated will be in \nJSON\n.\n\n\nSample Response\n\u00b6\n\n\nRequest\n\u00b6\n\n\nGET  v1/get/visitee\n\n\n\n\n\nResponse\n\u00b6\n\n\n{\n\n    \n\"success\"\n:\n \ntrue\n,\n\n    \n\"data\"\n:\n \n[\n\n        \n{\n\n            \n\"visitee_no\"\n:\n \n\"1\"\n,\n\n            \n\"name\"\n:\n \n\"John Reese\"\n\n        \n},\n\n        \n{\n\n            \n\"visitee_no\"\n:\n \n\"2\"\n,\n\n            \n\"name\"\n:\n \n\"Harold Swift\"\n\n        \n}\n\n    \n]\n\n\n}\n\n\n\n\n\n\nResponse Parameters\n\u00b6\n\n\nSuccessful Request\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\ntrue - for successful request\n\n\n\n\n\n\ndata\n\n\nJSON Array\n\n\nJSON Array consisting of multiple entries with every entry having:\n\n\n\n\n\n\nvisitee_no\n\n\ninteger\n\n\nVisitee ID of the employee\n\n\n\n\n\n\nname\n\n\nstring\n\n\nVisitee name\n\n\n\n\n\n\n\n\nBad Request\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\nfalse - for unsuccessful request\n\n\n\n\n\n\nerrors\n\n\nJSON Object\n\n\nContains error information (see error documentation)\n\n\n\n\n\n\n\n\nIncludes general OAuth and Server errors as documented in \nErrors and Exceptions\n.",
+            "title": "Retrieve Visitees' Data"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#getting-visitees-data",
+            "text": "Visitor data can be retrieved using the  /v1/get/visitee/  endpoint.",
+            "title": "Getting Visitees' Data"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#request",
+            "text": "Supply a GET request with the Authorization Header.",
+            "title": "Request"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#retrieve-all-available-visitees-data",
+            "text": "GET  /v1/get/visitee/\nAuthorization: Token <access_token>",
+            "title": "Retrieve all available visitees' data"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#method-url",
+            "text": "/v1/get/visitee/",
+            "title": "Method URL"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#required-parameters",
+            "text": "name  type  description      access_token  string  The user's access token in the form of an Authorization header as specified above",
+            "title": "Required Parameters"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#response",
+            "text": "The response generated will be in  JSON .",
+            "title": "Response"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#sample-response",
+            "text": "",
+            "title": "Sample Response"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#request_1",
+            "text": "GET  v1/get/visitee",
+            "title": "Request"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#response_1",
+            "text": "{ \n     \"success\" :   true , \n     \"data\" :   [ \n         { \n             \"visitee_no\" :   \"1\" , \n             \"name\" :   \"John Reese\" \n         }, \n         { \n             \"visitee_no\" :   \"2\" , \n             \"name\" :   \"Harold Swift\" \n         } \n     ]  }",
+            "title": "Response"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#response-parameters",
+            "text": "",
+            "title": "Response Parameters"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#successful-request",
+            "text": "name  type  description      success  boolean  true - for successful request    data  JSON Array  JSON Array consisting of multiple entries with every entry having:    visitee_no  integer  Visitee ID of the employee    name  string  Visitee name",
+            "title": "Successful Request"
+        },
+        {
+            "location": "/Retrieve-Visitee-Data/#bad-request",
+            "text": "name  type  description      success  boolean  false - for unsuccessful request    errors  JSON Object  Contains error information (see error documentation)     Includes general OAuth and Server errors as documented in  Errors and Exceptions .",
+            "title": "Bad Request"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/",
+            "text": "Warning\n\n\nThis API is still under development and may undergo major changes without change in version number. This documentation may become \nincomplete\n or \nincorrect\n at any time, until this notice is removed.  \n\n\n\n\nA visitor photo is an image of a person visiting someone or somewhere, that is added when a visitor enters the premises.\n\n\nGet Visitor Photo\n\u00b6\n\n\nA visitor photo can be retrieved using the \n/v1/photo/\n or \nv1/photo/thumb/\n endpoints, for photos and thumbnails respectively.  \n\n\nRequest\n\u00b6\n\n\nSupply a GET request with the visitor ID and Authorization Header.\n\n\nFull Photo\n\u00b6\n\n\nGET  /v1/photo/<visitor-ID>\nAuthorization: Token <access_token>\n\n\n\n\n\nThumbnail\n\u00b6\n\n\nGET  /v1/photo/thumb/<visitor-ID>\nAuthorization: Token <access_token>\n\n\n\n\n\nMethod URL\n\u00b6\n\n\n/v1/photo/\n and \nv1/photo/thumb/\n\n\nRequired Parameters\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nvisitor ID\n\n\nstring\n\n\nVisitor ID of the visitor as specified above\n\n\n\n\n\n\naccess_token\n\n\nstring\n\n\nThe user's access token in the form of an Authorization header as specified above\n\n\n\n\n\n\n\n\nSome caveats:\n\n\n\n\nIf an invalid Visitor ID is provided, the page will return a JSON Response instead of an image file. See below for more details.\n\n\n\n\nResponse\n\u00b6\n\n\nIf visitor ID and Access Token is valid, an image file (in one of the supported formats) is generated on the page. If any one is invalid, then a \nJSON\n Response with the corresponding error code is generated.  \n\n\n\n\nNote\n\n\nThumbnails are always returned in \n.jpg\n format.\n\n\n\n\nResponse Parameters\n\u00b6\n\n\nSuccessful Request\n\u00b6\n\n\nNone. Image file is generated and displayed on the page.\n\n\nBad Request\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\nfalse - for unsuccessful request\n\n\n\n\n\n\nerrors\n\n\nJSON Object\n\n\nContains error information which may include the following:\n\n\n\n\n\n\n3404\n\n\nstring\n\n\nInvalid visitor ID (APIMethodException)\n\n\n\n\n\n\n4515\n\n\nstring\n\n\nImage not available (RequestedObjectException 4515)\n\n\n\n\n\n\n\n\nAlso may include general OAuth and Server errors as documented in \nErrors and Exceptions\n.\n\n\nBest Practices\n\u00b6\n\n\n\n\nUse thumbnails\n: Use thumbnails to reduce cost, and increase speed when displaying image previews. Load full images only when required.",
+            "title": "Retrieve Visitor Photo"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#get-visitor-photo",
+            "text": "A visitor photo can be retrieved using the  /v1/photo/  or  v1/photo/thumb/  endpoints, for photos and thumbnails respectively.",
+            "title": "Get Visitor Photo"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#request",
+            "text": "Supply a GET request with the visitor ID and Authorization Header.",
+            "title": "Request"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#full-photo",
+            "text": "GET  /v1/photo/<visitor-ID>\nAuthorization: Token <access_token>",
+            "title": "Full Photo"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#thumbnail",
+            "text": "GET  /v1/photo/thumb/<visitor-ID>\nAuthorization: Token <access_token>",
+            "title": "Thumbnail"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#method-url",
+            "text": "/v1/photo/  and  v1/photo/thumb/",
+            "title": "Method URL"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#required-parameters",
+            "text": "name  type  description      visitor ID  string  Visitor ID of the visitor as specified above    access_token  string  The user's access token in the form of an Authorization header as specified above     Some caveats:   If an invalid Visitor ID is provided, the page will return a JSON Response instead of an image file. See below for more details.",
+            "title": "Required Parameters"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#response",
+            "text": "If visitor ID and Access Token is valid, an image file (in one of the supported formats) is generated on the page. If any one is invalid, then a  JSON  Response with the corresponding error code is generated.     Note  Thumbnails are always returned in  .jpg  format.",
+            "title": "Response"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#response-parameters",
+            "text": "",
+            "title": "Response Parameters"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#successful-request",
+            "text": "None. Image file is generated and displayed on the page.",
+            "title": "Successful Request"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#bad-request",
+            "text": "name  type  description      success  boolean  false - for unsuccessful request    errors  JSON Object  Contains error information which may include the following:    3404  string  Invalid visitor ID (APIMethodException)    4515  string  Image not available (RequestedObjectException 4515)     Also may include general OAuth and Server errors as documented in  Errors and Exceptions .",
+            "title": "Bad Request"
+        },
+        {
+            "location": "/Retrieve-Visitor-Photo/#best-practices",
+            "text": "Use thumbnails : Use thumbnails to reduce cost, and increase speed when displaying image previews. Load full images only when required.",
+            "title": "Best Practices"
+        },
+        {
+            "location": "/Visitor-Exit-Record/",
+            "text": "Warning\n\n\nThis API is still under development and may undergo major changes without change in version number. This documentation may become \nincomplete\n or \nincorrect\n at any time, until this notice is removed.  \n\n\n\n\nA visitor exit is a record of a person exiting from the premises.\n\n\nVisitor Exit Record\n\u00b6\n\n\nA visitor exit can be recorded using the \n/v1/exit/\n endpoint.  \n\n\nRequest\n\u00b6\n\n\nSupply a GET request with the visitor ID and Authorization Header.\n\n\nGET  /v1/exit/<visitor-ID>\nAuthorization: Token <access_token>\n\n\n\n\n\nMethod URL\n\u00b6\n\n\n/v1/exit/\n\n\nRequired Parameters\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nvisitor ID\n\n\nstring\n\n\nVisitor ID of the visitor as specified above\n\n\n\n\n\n\naccess_token\n\n\nstring\n\n\nThe user's access token in the form of an Authorization header as specified above\n\n\n\n\n\n\n\n\nResponse\n\u00b6\n\n\nThe response generated will be in \nJSON\n.\n\n\nSample Response\n\u00b6\n\n\n{\n\n  \n\"success\"\n:\n \ntrue\n,\n\n\n}\n\n\n\n\n\n\nResponse Parameters\n\u00b6\n\n\nSuccessful Request\n\u00b6\n\n\n\n\n\n\n\n\nname\n\n\ntype\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nsuccess\n\n\nboolean\n\n\ntrue - for successful request\n\n\n\n\n\n\n\n\nBad Request\n\u00b6\n\n\nPlease check \nErrors and Exceptions\n for a list of possible exceptions and errors.",
+            "title": "Visitor Exit Record"
+        },
+        {
+            "location": "/Visitor-Exit-Record/#visitor-exit-record",
+            "text": "A visitor exit can be recorded using the  /v1/exit/  endpoint.",
+            "title": "Visitor Exit Record"
+        },
+        {
+            "location": "/Visitor-Exit-Record/#request",
+            "text": "Supply a GET request with the visitor ID and Authorization Header.  GET  /v1/exit/<visitor-ID>\nAuthorization: Token <access_token>",
+            "title": "Request"
+        },
+        {
+            "location": "/Visitor-Exit-Record/#method-url",
+            "text": "/v1/exit/",
+            "title": "Method URL"
+        },
+        {
+            "location": "/Visitor-Exit-Record/#required-parameters",
+            "text": "name  type  description      visitor ID  string  Visitor ID of the visitor as specified above    access_token  string  The user's access token in the form of an Authorization header as specified above",
+            "title": "Required Parameters"
+        },
+        {
+            "location": "/Visitor-Exit-Record/#response",
+            "text": "The response generated will be in  JSON .",
+            "title": "Response"
+        },
+        {
+            "location": "/Visitor-Exit-Record/#sample-response",
+            "text": "{ \n   \"success\" :   true ,  }",
+            "title": "Sample Response"
+        },
+        {
+            "location": "/Visitor-Exit-Record/#response-parameters",
+            "text": "",
+            "title": "Response Parameters"
+        },
+        {
+            "location": "/Visitor-Exit-Record/#successful-request",
+            "text": "name  type  description      success  boolean  true - for successful request",
+            "title": "Successful Request"
+        },
+        {
+            "location": "/Visitor-Exit-Record/#bad-request",
+            "text": "Please check  Errors and Exceptions  for a list of possible exceptions and errors.",
+            "title": "Bad Request"
+        },
+        {
+            "location": "/Errors-and-Exceptions/",
+            "text": "Warning\n\n\nThis API is still under development and may undergo major changes without change in version number. This documentation may become \nincomplete\n or \nincorrect\n at any time, until this notice is removed.  \n\n\n\n\nList of Exceptions, Types and Error Codes\n\u00b6\n\n\nThis is a list of currently available Error codes and types. This can be used as a reference to fix problems with OAuth and API Requests. It also contains a description of server side errors.\n\n\nError Format\n\u00b6\n\n\nErrors codes and types are sent as a part of the \nerrors\n JSON Object. The following is an example of an error, where a \nGET\n request does not provide Authorization Header:\n\n\n{\n\n    \n\"success\"\n:\n \nfalse\n,\n\n    \n\"errors\"\n:\n \n{\n\n        \n\"message\"\n:\n \n\"An active access token must be used to query information about the current visitors.\"\n,\n\n        \n\"type\"\n:\n \n\"OAuthException\"\n,\n\n        \n\"code\"\n:\n \n\"1190\"\n\n    \n}\n\n\n}\n\n\n\n\n\n\nAll errors comprise of three parts:\n\n message: Human-readable error message.\n\n type: Error type (See below for available types).\n* code: Error codes for that error (See below for available error codes).\n\n\nCheck the respective API page for endpoint-specific errors.\n\n\nOAuthException - 1xxx\n\u00b6\n\n\n\n\n\n\n\n\nCode\n\n\nName\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\n1142\n\n\nWrong Credentials\n\n\nCredentials provided are wrong\n\n\n\n\n\n\n1157\n\n\nAuth Data Missing\n\n\nRequired authentication data not provided\n\n\n\n\n\n\n1190\n\n\nAccess Token Missing\n\n\nAccess Token not provided as Authorization header or access token not provided in correct format in header\n\n\n\n\n\n\n1403\n\n\nAPI Session\n\n\nThis means that the login status or access token has expired, been revoked, or is otherwise invalid\n\n\n\n\n\n\n\n\nAPIMethodException - 2xxx/3xxx\n\u00b6\n\n\n\n\n\n\n\n\nCode\n\n\nName\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\n2200\n\n\nData Not Supplied\n\n\nRequired POST data was not provided\n\n\n\n\n\n\n2400\n\n\nIncorrect Data Format\n\n\nIncorrect data format/Data is too large\n\n\n\n\n\n\n23xx\n\n\n/add/ Endpoint Errors\n\n\nSpecific errors for /v1/add/ endpoint ([[Ref|API:-Adding-a-Visitor#bad-request]])\n\n\n\n\n\n\n2415\n\n\nUnsupported Media Format\n\n\nUnsupported media type\n\n\n\n\n\n\n2600\n\n\nUnknown Path Components\n\n\nThe API Endpoint does not exist or the URL parameters include unrecognized paths\n\n\n\n\n\n\n3100\n\n\nGET Data Not Supplied\n\n\nRequired get data not provided\n\n\n\n\n\n\n3404\n\n\nObject Not Found\n\n\nObject does not exist\n\n\n\n\n\n\n\n\nRequestedObjectException - 4xxx\n\u00b6\n\n\n\n\n\n\n\n\nCode\n\n\nName\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\n4515\n\n\nResource Unavailable\n\n\nRequested resource is not available/generated\n\n\n\n\n\n\n\n\nServerSideException - 5xxx\n\u00b6\n\n\n\n\n\n\n\n\nCode\n\n\nName\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\n5501\n\n\nServer Issue\n\n\nTemporary issue due to downtime or throttling. Wait and retry the operation.",
+            "title": "Errors and Exceptions"
+        },
+        {
+            "location": "/Errors-and-Exceptions/#list-of-exceptions-types-and-error-codes",
+            "text": "This is a list of currently available Error codes and types. This can be used as a reference to fix problems with OAuth and API Requests. It also contains a description of server side errors.",
+            "title": "List of Exceptions, Types and Error Codes"
+        },
+        {
+            "location": "/Errors-and-Exceptions/#error-format",
+            "text": "Errors codes and types are sent as a part of the  errors  JSON Object. The following is an example of an error, where a  GET  request does not provide Authorization Header:  { \n     \"success\" :   false , \n     \"errors\" :   { \n         \"message\" :   \"An active access token must be used to query information about the current visitors.\" , \n         \"type\" :   \"OAuthException\" , \n         \"code\" :   \"1190\" \n     }  }   All errors comprise of three parts:  message: Human-readable error message.  type: Error type (See below for available types).\n* code: Error codes for that error (See below for available error codes).  Check the respective API page for endpoint-specific errors.",
+            "title": "Error Format"
+        },
+        {
+            "location": "/Errors-and-Exceptions/#oauthexception-1xxx",
+            "text": "Code  Name  Description      1142  Wrong Credentials  Credentials provided are wrong    1157  Auth Data Missing  Required authentication data not provided    1190  Access Token Missing  Access Token not provided as Authorization header or access token not provided in correct format in header    1403  API Session  This means that the login status or access token has expired, been revoked, or is otherwise invalid",
+            "title": "OAuthException - 1xxx"
+        },
+        {
+            "location": "/Errors-and-Exceptions/#apimethodexception-2xxx3xxx",
+            "text": "Code  Name  Description      2200  Data Not Supplied  Required POST data was not provided    2400  Incorrect Data Format  Incorrect data format/Data is too large    23xx  /add/ Endpoint Errors  Specific errors for /v1/add/ endpoint ([[Ref|API:-Adding-a-Visitor#bad-request]])    2415  Unsupported Media Format  Unsupported media type    2600  Unknown Path Components  The API Endpoint does not exist or the URL parameters include unrecognized paths    3100  GET Data Not Supplied  Required get data not provided    3404  Object Not Found  Object does not exist",
+            "title": "APIMethodException - 2xxx/3xxx"
+        },
+        {
+            "location": "/Errors-and-Exceptions/#requestedobjectexception-4xxx",
+            "text": "Code  Name  Description      4515  Resource Unavailable  Requested resource is not available/generated",
+            "title": "RequestedObjectException - 4xxx"
+        },
+        {
+            "location": "/Errors-and-Exceptions/#serversideexception-5xxx",
+            "text": "Code  Name  Description      5501  Server Issue  Temporary issue due to downtime or throttling. Wait and retry the operation.",
+            "title": "ServerSideException - 5xxx"
+        }
+    ]
+}
