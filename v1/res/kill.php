@@ -30,7 +30,7 @@ function kill($errcode, $param=null){
   $arr['2200']['message'] = "Required data not supplied. Please check documentation for more information.";
   $arr['2200']['type']="APIMethodException";
 
-  //NOTE: 23xx series is for the v1/add/ sendpoint
+  //NOTE: 23xx series is for the v1/add/ endpoint
   $arr['2301'] = array();
   $arr['2301']['message'] = "Incorrect format for field 'cardno'";
   $arr['2301']['type']="APIMethodException";
