@@ -41,3 +41,10 @@ Database and table names must be generic easy to understand.
 
 # Current Status
 This branch is a snapshot of the latest stable functionality. visitor-management is **not complete** and **should not be deployed** yet. Please see the `development` branch for the latest information.
+
+# Developers
+This application is developed at Bennett University by:
+
+* [Nikhil Ramakrishnan](https://github.com/nikramakrishnan)
+* [R. Ramana](https://github.com/rr42)
+* [Veeki Yadav](https://github.com/gevic)
