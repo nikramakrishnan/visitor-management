@@ -1,5 +1,5 @@
 # visitor-management
-Visitor Management System
+Visitor Management System. Docs available on [VMSAlpha Docs](https://nikramakrishnan.github.io/visitor-management).
 
 # Running on Local Server
 Make sure you have xampp 7.1.4+ installed.  
