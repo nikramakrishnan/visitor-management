@@ -1,5 +1,5 @@
 # visitor-management
-Visitor Management System. Docs available on [VMSAlpha Docs](https://nikramakrishnan.github.io/visitor-management).
+Visitor Management System. Docs available on [VMSAlpha Docs](https://nikramakrishnan.github.io/visitor-management). Markdown Docs are available on the [Project Wiki](https://github.com/nikramakrishnan/visitor-management/wiki).
 
 # Running on Local Server
 Make sure you have xampp 7.1.4+ installed.  
