@@ -15,11 +15,6 @@ if you have already cloned the repository, run -
 git pull
 ```
 
-Switch to the `skeleton` branch -
-```bash
-git checkout skeleton
-```
-
 Now, start Apache and MySQL, and create a database named `vms`, if not already exists.  
 
 Now import the `vms.sql` file in the database to create the required table(s).  
